@@ -1,0 +1,14 @@
+# Files/directories to exclude from Vercel deployment
+# (This doesn't affect build cache, but reduces upload size)
+
+# Build outputs (will be generated)
+build/
+.dart_tool/
+.pub-cache/
+
+# Flutter SDK (will be cloned during build)
+flutter/
+
+# Environment files (created during build)
+lib/core/config/.env.*
+

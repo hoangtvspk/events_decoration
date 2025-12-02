@@ -1,0 +1,142 @@
+---
+description: 
+globs: 
+alwaysApply: true
+---
+# BLoC Pattern Rules
+
+## Status Pattern (Required)
+```dart
+// Must be in core/domain/entities/status.dart
+@freezed
+class Status with _$Status {
+  const factory Status.idle() = StatusIdle;
+  const factory Status.loading() = StatusLoading;
+  const factory Status.failure(String error) = StatusFailure;
+  const factory Status.success() = StatusSuccess;
+}
+```
+
+## State Structure (Required)
+```dart
+@freezed
+class ExampleState with _$ExampleState {
+  const factory ExampleState({
+    // 1. Data fields first
+    @Default([]) List<Data> items,
+    
+    // 2. Status fields second
+    @Default(Status.idle()) Status statusLoadItems,
+    @Default(Status.idle()) Status statusUpdateItem,
+  }) = _ExampleState;
+}
+```
+
+## Naming Rules
+- Status fields must follow pattern: `statusActionNoun`
+  - `statusLoadItems`
+  - `statusUpdateProfile`
+  - `statusDeleteMessage`
+
+## State Updates (Required)
+```dart
+// Loading
+emit(state.copyWith(
+  statusLoadItems: const Status.loading()
+));
+
+// Success
+emit(state.copyWith(
+  items: newData,
+  statusLoadItems: const Status.success()
+));
+
+// Error
+emit(state.copyWith(
+  statusLoadItems: Status.failure(error.message)
+));
+```
+
+# Your rule content
+
+- You can @ files here
+- You can use markdown but dont have to
+
+# BLoC State Management Rules
+
+## 1. Status Definition
+- Must be defined in `core/domain/entities/status.dart`
+- Must use Freezed annotation
+- Must have exactly these 4 states:
+  ```dart
+  @freezed
+  class Status with _$Status {
+    const factory Status.idle() = StatusIdle;
+    const factory Status.loading() = StatusLoading;
+    const factory Status.failure(String error) = StatusFailure;
+    const factory Status.success() = StatusSuccess;
+  }
+  ```
+
+## 2. State Structure
+- One main state class per feature/bloc
+- Data fields must come first with `@Default` values
+- Status fields must follow data fields
+- Status field naming: `statusLoadX`, `statusUpdateX`, `statusDeleteX`
+- All status fields must default to `Status.idle()`
+- Example:
+  ```dart
+  @freezed
+  class FeatureState with _$FeatureState {
+    const factory FeatureState({
+      // Data fields first
+      @Default([]) List<Data> items,
+      @Default(0) int count,
+      
+      // Status fields second
+      @Default(Status.idle()) Status statusLoadItems,
+      @Default(Status.idle()) Status statusUpdateItems,
+    }) = _FeatureState;
+  }
+  ```
+
+## 3. State Updates
+- Must use `copyWith` for all state updates
+- Never create new state instances directly
+- Update status and data together when operation completes
+- Keep status updates atomic (one operation = one status)
+
+## 4. Operation Flow Pattern
+```dart
+// Start Operation
+emit(state.copyWith(
+  statusLoadX: const Status.loading()
+));
+
+// Success Case
+emit(state.copyWith(
+  data: newData,
+  statusLoadX: const Status.success()
+));
+
+// Failure Case
+emit(state.copyWith(
+  statusLoadX: Status.failure(message)
+));
+```
+
+## 5. Multiple Operations
+- Each distinct operation must have its own status field
+- Operations can run independently
+- Status fields must reflect the specific operation they control
+- Example:
+  ```dart
+  statusLoadItems    // for loading items
+  statusUpdateItem   // for updating single item
+  statusDeleteItem   // for deleting single item
+  ```
+
+# Your rule content
+
+- You can @ files here
+- You can use markdown but dont have to

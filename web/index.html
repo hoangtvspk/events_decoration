@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <!--
+    If you are serving your web app in a path other than the root, change the
+    href value below to reflect the base path you are serving from.
+
+    The path provided below has to start and end with a slash "/" in order for
+    it to work correctly.
+
+    For more details:
+    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
+
+    This is a placeholder for base href that will be replaced by the value of
+    the `--base-href` argument provided to `flutter build`.
+  -->
+    <base href="$FLUTTER_BASE_HREF" />
+
+    <meta charset="UTF-8" />
+    <meta content="IE=Edge" http-equiv="X-UA-Compatible" />
+    <meta name="description" content="TaskFlow - Modern task management powered by Flutter BLoC. Organize, track, and complete your tasks with style." />
+
+    <!-- iOS meta tags & icons -->
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="apple-mobile-web-app-title" content="TaskFlow" />
+    <link rel="apple-touch-icon" href="icons/Icon-192.png" />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="favicon.png" />
+
+    <title>TaskFlow - BLoC Task Manager</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="stylesheet" href="splash.css" />
+
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Splash Screen -->
+    <div id="splash-screen">
+      <div class="splash-content">
+        <div class="splash-logo"></div>
+        <h1 class="splash-title">BLoC Pattern Implementation</h1>
+        <div class="splash-loader">
+          <div class="splash-loader-dot"></div>
+          <div class="splash-loader-dot"></div>
+          <div class="splash-loader-dot"></div>
+          <div class="splash-loader-dot"></div>
+        </div>
+
+        <!-- Error Message -->
+        <div class="splash-error" id="splash-error">
+          <div class="splash-error-icon">⚠️</div>
+          <h2 class="splash-error-title">Failed to Load App</h2>
+          <p class="splash-error-message" id="error-message">
+            Unable to load the application. Please check your internet
+            connection and try again.
+          </p>
+          <button class="splash-error-button" onclick="location.reload()">
+            Retry
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <script src="splash.js"></script>
+
+    <script
+      src="flutter_bootstrap.js"
+      async
+      onerror="
+        (function() {
+          const errorDiv = document.getElementById('splash-error');
+          const errorMessage = document.getElementById('error-message');
+          const splashScreen = document.getElementById('splash-screen');
+          if (errorDiv && errorMessage && splashScreen) {
+            splashScreen.classList.add('has-error');
+            errorMessage.textContent = 'Failed to load Flutter bootstrap script. Please check your internet connection and refresh the page.';
+            errorDiv.classList.add('show');
+          }
+        })();
+      "
+    ></script>
+  </body>
+</html>

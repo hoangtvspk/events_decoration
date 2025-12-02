@@ -1,0 +1,35 @@
+{
+  "name": "TaskFlow - BLoC Task Manager",
+  "short_name": "TaskFlow",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#0F0C29",
+  "theme_color": "#8B5CF6",
+  "description": "Modern task management app built with Flutter and BLoC pattern. Organize your work with beautiful animations and seamless state management.",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "icons": [
+    {
+      "src": "icons/Icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/Icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    },
+    {
+      "src": "icons/Icon-maskable-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "icons/Icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}
