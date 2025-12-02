@@ -11,17 +11,16 @@ class Front2 extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
-          color: Colors.red,
+          image: const DecorationImage(
+            image: AssetImage('assets/images/front_2_bg.jpg'),
+            fit: BoxFit.cover,
+          ),
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.circular(20),
           child: Stack(
             fit: StackFit.expand,
             children: [
-              Image.asset(
-                'assets/images/front_2_bg.jpg',
-                fit: BoxFit.cover,
-              ),
               Positioned.fill(
                 child: Container(
                   decoration: BoxDecoration(
@@ -31,7 +30,8 @@ class Front2 extends StatelessWidget {
                       colors: [
                         const Color.fromARGB(255, 79, 92, 98)
                             .withValues(alpha: 0.8),
-                        Color.fromARGB(255, 79, 92, 98).withValues(alpha: 0.2),
+                        const Color.fromARGB(255, 79, 92, 98)
+                            .withValues(alpha: 0.2),
                         Colors.transparent,
                       ],
                       stops: const [0.0, 0.3, 1.0],
@@ -74,7 +74,7 @@ class Front2 extends StatelessWidget {
                                   fontSize: context.getSize(
                                       mobile: 12,
                                       desktop: 20,
-                                      smallDesktop: 14),
+                                      smallDesktop: 18),
                                   fontWeight: FontWeight.w500,
                                   color: Colors.white,
                                   height: 1.4,

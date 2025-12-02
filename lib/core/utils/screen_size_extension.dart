@@ -19,7 +19,8 @@ extension ScreenSizeExtension on BuildContext {
   bool get isDesktop => screenWidth >= 1024;
 
   /// Kiểm tra xem có phải small desktop không (desktop nhưng height < 800px)
-  bool get isSmallDesktop => isDesktop && screenHeight < 800;
+  bool get isSmallDesktop =>
+      isDesktop && (screenHeight < 800 || screenWidth < 1550);
 
   /// Lấy giá trị size phù hợp dựa trên screen size
   ///
