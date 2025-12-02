@@ -1,18 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:bui_bloc/core/widgets/text/text.dart';
+import 'package:bui_bloc/core/utils/screen_size_extension.dart';
+import '../card_fronts/front_1.dart';
+import '../card_fronts/front_2.dart';
+import '../card_fronts/front_3.dart';
+import '../card_fronts/front_4.dart';
+import '../card_fronts/front_5.dart';
 
 class FlipGreetingCard extends StatefulWidget {
-  final bool isMobile;
-  final bool isTablet;
-  final bool isDesktop;
-
-  const FlipGreetingCard({
-    super.key,
-    required this.isMobile,
-    required this.isTablet,
-    required this.isDesktop,
-  });
+  const FlipGreetingCard({super.key});
 
   @override
   State<FlipGreetingCard> createState() => _FlipGreetingCardState();
@@ -24,15 +19,26 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
   late Animation<double> _animation;
   late AnimationController _arrowController;
   late Animation<double> _arrowAnimation;
+  late Animation<double> _arrowOpacityAnimation;
   late AnimationController _shadowController;
   late Animation<double> _shadowAnimation;
+  late AnimationController _disappearController;
+  late Animation<double> _disappearAnimation;
   int _currentIndex = 0;
   double _dragStartX = 0.0;
   bool _isDragging = false;
   bool _isFlippingBackward = false; // Track flip direction
+  bool _hasStartedDragging = false; // Track nếu đã bắt đầu kéo
+  bool _isCompleted = false; // Track nếu đã hoàn thành (về thẻ 1 từ thẻ cuối)
 
   // 5 mặt front khác nhau
-  final List<Widget Function(bool, bool, bool)> _frontBuilders = [];
+  final List<Widget Function(BuildContext)> _frontBuilders = [
+    (context) => const Front1(),
+    (context) => const Front2(),
+    (context) => const Front3(),
+    (context) => const Front4(),
+    (context) => const Front5(),
+  ];
 
   @override
   void initState() {
@@ -48,17 +54,35 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
       ),
     );
 
-    // Arrow animation controller - hiện mỗi 10s
+    // Arrow animation controller - di chuyển gấu từ phải sang trái
     _arrowController = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 1500),
+      duration: const Duration(milliseconds: 2000), // 2 giây để di chuyển
     );
-    _arrowAnimation = Tween<double>(begin: 0, end: 1).animate(
+    // Animation cho vị trí gấu: từ 0 (phải) đến 0.9 (90% từ phải)
+    _arrowAnimation = Tween<double>(begin: 0.0, end: 0.9).animate(
       CurvedAnimation(
         parent: _arrowController,
-        curve: Curves.easeOut,
+        curve: Curves.easeInOut,
       ),
     );
+    // Animation cho opacity: fade in đầu, fade out khi đến 90%
+    _arrowOpacityAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 0.0, end: 1.0)
+            .chain(CurveTween(curve: Curves.easeIn)),
+        weight: 0.1, // 10% đầu fade in
+      ),
+      TweenSequenceItem(
+        tween: ConstantTween<double>(1.0),
+        weight: 0.7, // 70% giữa giữ opacity = 1
+      ),
+      TweenSequenceItem(
+        tween: Tween<double>(begin: 1.0, end: 0.0)
+            .chain(CurveTween(curve: Curves.easeOut)),
+        weight: 0.2, // 20% cuối fade out
+      ),
+    ]).animate(_arrowController);
 
     // Shadow animation controller - mượt hơn và không reset đột ngột
     _shadowController = AnimationController(
@@ -72,27 +96,36 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
       ),
     );
 
-    // Initialize front builders
-    _frontBuilders.addAll([
-      _buildFront1,
-      _buildFront2,
-      _buildFront3,
-      _buildFront4,
-      _buildFront5,
-    ]);
+    // Disappear animation controller - thu nhỏ card khi hoàn thành
+    _disappearController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+    _disappearAnimation = Tween<double>(begin: 1.0, end: 0.0).animate(
+      CurvedAnimation(
+        parent: _disappearController,
+        curve: Curves.easeIn,
+      ),
+    );
 
     // Start arrow animation cycle
     _startArrowAnimationCycle();
   }
 
   void _startArrowAnimationCycle() {
-    // Chờ 10s rồi chạy animation
-    Future.delayed(const Duration(seconds: 10), () {
-      if (mounted) {
+    // Chờ 2s rồi hiển thị và di chuyển gấu
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted && !_hasStartedDragging) {
         _arrowController.forward().then((_) {
-          _arrowController.reset();
-          // Lặp lại cycle
-          _startArrowAnimationCycle();
+          // Sau khi animation xong, chờ 3s rồi lặp lại
+          if (mounted && !_hasStartedDragging) {
+            _arrowController.reset();
+            Future.delayed(const Duration(seconds: 2), () {
+              if (mounted && !_hasStartedDragging) {
+                _startArrowAnimationCycle();
+              }
+            });
+          }
         });
       }
     });
@@ -103,12 +136,16 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
     _controller.dispose();
     _arrowController.dispose();
     _shadowController.dispose();
+    _disappearController.dispose();
     super.dispose();
   }
 
   void _flipForward() {
     // Swipe từ phải sang trái: lật từ phải sang trái → nội dung tiếp theo
-    if (_controller.isAnimating) return;
+    if (_controller.isAnimating || _isCompleted) return;
+
+    // Kiểm tra nếu đang ở thẻ cuối và sẽ về thẻ 1
+    final isLastCard = _currentIndex == _frontBuilders.length - 1;
 
     setState(() {
       _isFlippingBackward = false;
@@ -123,18 +160,29 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
         _currentIndex = (_currentIndex + 1) % _frontBuilders.length;
         _controller.value = 0.0;
         _isFlippingBackward = false;
+
+        // Nếu đã về thẻ 1 từ thẻ cuối, đánh dấu hoàn thành và bắt đầu animation thu nhỏ
+        if (isLastCard && _currentIndex == 0) {
+          _isCompleted = true;
+        }
       });
 
       // Shadow animation mượt về 0 sau khi flip xong
       _shadowController.reverse().then((_) {
         _shadowController.value = 0.0;
       });
+
+      // Nếu đã hoàn thành, bắt đầu animation thu nhỏ
+      if (isLastCard && _currentIndex == 0) {
+        _disappearController.forward();
+      }
     });
   }
 
   void _flipBackward() {
     // Swipe từ trái sang phải: lật từ trái sang phải → nội dung trước đó
-    if (_controller.isAnimating) return;
+    // Không cho lật nếu đang ở thẻ đầu hoặc đã hoàn thành
+    if (_controller.isAnimating || _isCompleted || _currentIndex == 0) return;
 
     setState(() {
       _isFlippingBackward = true;
@@ -177,6 +225,14 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
       if (deltaX < 0) {
         // Swipe từ phải sang trái (kéo sang trái)
         _flipForward();
+        // Đánh dấu đã bắt đầu kéo và ẩn text hint
+        if (!_hasStartedDragging) {
+          setState(() {
+            _hasStartedDragging = true;
+          });
+          _arrowController.stop();
+          _arrowController.reset();
+        }
       } else {
         // Swipe từ trái sang phải (kéo sang phải)
         _flipBackward();
@@ -190,612 +246,264 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: widget.isMobile
-          ? 280
-          : widget.isTablet
-              ? 350
-              : 400,
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          // Container 1: Card với flip animation
-          SizedBox(
-            height: widget.isMobile
-                ? 400
-                : widget.isTablet
-                    ? 500
-                    : 600,
-            child: Stack(
-              children: [
-                GestureDetector(
-                  onPanStart: _onPanStart,
-                  onPanUpdate: _onPanUpdate,
-                  onPanEnd: _onPanEnd,
-                  child: AnimatedBuilder(
-                    animation: _animation,
-                    builder: (context, child) {
-                      // Dùng flag _isFlippingBackward thay vì check controller status
-                      // để tránh race condition khi animation hoàn thành
-                      final normalizedValue = _isFlippingBackward
-                          ? 1.0 - _animation.value
-                          : _animation.value;
+    return AnimatedBuilder(
+      animation: _disappearAnimation,
+      builder: (context, child) {
+        return Opacity(
+          opacity: _disappearAnimation.value,
+          child: Transform.scale(
+            scale: _disappearAnimation.value,
+            child: LayoutBuilder(
+              builder: (context, constraints) {
+                return Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    // Container 1: Card với flip animation - Expanded để lấy hết chiều cao còn lại
+                    Expanded(
+                      child: SizedBox(
+                        width: constraints.maxWidth,
+                        child: Stack(
+                          clipBehavior:
+                              Clip.none, // Không clip để hình không bị cắt
+                          children: [
+                            GestureDetector(
+                              onPanStart: _onPanStart,
+                              onPanUpdate: _onPanUpdate,
+                              onPanEnd: _onPanEnd,
+                              child: AnimatedBuilder(
+                                animation: _animation,
+                                builder: (context, child) {
+                                  // Dùng flag _isFlippingBackward thay vì check controller status
+                                  // để tránh race condition khi animation hoàn thành
+                                  final normalizedValue = _isFlippingBackward
+                                      ? 1.0 - _animation.value
+                                      : _animation.value;
 
-                      // Để lật từ trái sang phải khi backward, cần đảo ngược góc rotateY
-                      final angle = _isFlippingBackward
-                          ? -normalizedValue *
-                              3.14159 // Negative angle để lật ngược lại
-                          : normalizedValue *
-                              3.14159; // Positive angle để lật từ phải sang trái
+                                  // Để lật từ trái sang phải khi backward, cần đảo ngược góc rotateY
+                                  final angle = _isFlippingBackward
+                                      ? -normalizedValue *
+                                          3.14159 // Negative angle để lật ngược lại
+                                      : normalizedValue *
+                                          3.14159; // Positive angle để lật từ phải sang trái
 
-                      final isShowingCurrentFront = normalizedValue < 0.5;
+                                  final isShowingCurrentFront =
+                                      normalizedValue < 0.5;
 
-                      // Tính toán mặt tiếp theo (forward) hoặc trước đó (backward)
-                      final nextIndex =
-                          (_currentIndex + 1) % _frontBuilders.length;
-                      final previousIndex =
-                          (_currentIndex - 1 + _frontBuilders.length) %
-                              _frontBuilders.length;
-                      final targetIndex =
-                          _isFlippingBackward ? previousIndex : nextIndex;
+                                  // Tính toán mặt tiếp theo (forward) hoặc trước đó (backward)
+                                  final nextIndex = (_currentIndex + 1) %
+                                      _frontBuilders.length;
+                                  final previousIndex = (_currentIndex -
+                                          1 +
+                                          _frontBuilders.length) %
+                                      _frontBuilders.length;
+                                  final targetIndex = _isFlippingBackward
+                                      ? previousIndex
+                                      : nextIndex;
 
-                      return Transform(
-                        alignment: Alignment.center,
-                        transform: Matrix4.identity()
-                          ..setEntry(3, 2, 0.001) // Perspective
-                          ..rotateY(angle),
-                        child: isShowingCurrentFront
-                            ? _frontBuilders[_currentIndex](widget.isMobile,
-                                widget.isTablet, widget.isDesktop)
-                            : Transform(
-                                alignment: Alignment.center,
-                                transform: Matrix4.identity()..rotateY(3.14159),
-                                child: _frontBuilders[targetIndex](
-                                    widget.isMobile,
-                                    widget.isTablet,
-                                    widget.isDesktop),
-                              ),
-                      );
-                    },
-                  ),
-                ),
-                // Arrow hint animation - bay từ phải sang trái rồi biến mất
-                Positioned.fill(
-                  child: AnimatedBuilder(
-                    animation: _arrowAnimation,
-                    builder: (context, child) {
-                      // Opacity: fade in đầu, fade out cuối
-                      final opacity = _arrowAnimation.value < 0.2
-                          ? _arrowAnimation.value / 0.2
-                          : _arrowAnimation.value > 0.8
-                              ? (1.0 - _arrowAnimation.value) / 0.2
-                              : 1.0;
-
-                      // Offset: bay từ phải (0) sang trái (âm)
-                      final offsetX = -(_arrowAnimation.value * 150);
-
-                      return IgnorePointer(
-                        child: Opacity(
-                          opacity: opacity,
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Transform.translate(
-                              offset: Offset(offsetX, 0),
-                              child: CustomPaint(
-                                size: const Size(80, 40),
-                                painter: _SwooshArrowPainter(),
+                                  return Transform(
+                                    alignment: Alignment.center,
+                                    transform: Matrix4.identity()
+                                      ..setEntry(3, 2, 0.001) // Perspective
+                                      ..rotateY(angle),
+                                    child: isShowingCurrentFront
+                                        ? _frontBuilders[_currentIndex](context)
+                                        : Transform(
+                                            alignment: Alignment.center,
+                                            transform: Matrix4.identity()
+                                              ..rotateY(3.14159),
+                                            child: _frontBuilders[targetIndex](
+                                                context),
+                                          ),
+                                  );
+                                },
                               ),
                             ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ),
-          // Container 2: Shadow dưới chân card
-          SizedBox(
-            height: 50, // Cố định height để không làm card nhảy
-            child: AnimatedBuilder(
-              animation: _shadowAnimation,
-              builder: (context, child) {
-                // Shadow animation mượt hơn, không reset đột ngột
-                final shadowValue = _shadowAnimation.value;
+                            // Gấu di chuyển animation - hiển thị sau 2s, di chuyển từ phải sang trái
+                            if (!_hasStartedDragging)
+                              Positioned(
+                                right: 20,
+                                bottom: 50,
+                                child: AnimatedBuilder(
+                                  animation: Listenable.merge([
+                                    _arrowAnimation,
+                                    _arrowOpacityAnimation,
+                                  ]),
+                                  builder: (context, child) {
+                                    // Tính toán vị trí gấu: từ phải (right: 0) sang trái (right: 90% của container)
+                                    // _arrowAnimation.value từ 0.0 đến 0.9
+                                    // Khi value = 0.0: right = 0 (gấu ở bên phải)
+                                    // Khi value = 0.9: right = 0.7 * width * 0.9 (gấu ở 90% từ phải)
+                                    final bearPosition = constraints.maxWidth *
+                                        0.7 *
+                                        _arrowAnimation.value;
 
-                return Align(
-                  alignment: Alignment.topCenter,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      top: 10 + (shadowValue * 5),
-                    ),
-                    width: widget.isMobile
-                        ? 200
-                        : widget.isTablet
-                            ? 250
-                            : 300,
-                    height: 20 + (shadowValue * 10),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(50),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black
-                              .withOpacity(0.5 - (shadowValue * 0.2)),
-                          blurRadius: 30 + (shadowValue * 20),
-                          spreadRadius: 5 + (shadowValue * 5),
-                          offset: const Offset(0, 0),
+                                    return IgnorePointer(
+                                      child: Opacity(
+                                        opacity: _arrowOpacityAnimation.value,
+                                        child: Stack(
+                                          clipBehavior: Clip
+                                              .none, // Không clip để hình không bị cắt
+                                          children: [
+                                            // Slide bar
+                                            Container(
+                                              width: constraints.maxWidth * 0.7,
+                                              height: context.getSize(
+                                                mobile: 20,
+                                                desktop: 40,
+                                                smallDesktop: 30,
+                                              ),
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.white
+                                                        .withValues(alpha: 0.0),
+                                                    Colors.white
+                                                        .withValues(alpha: 0.5),
+                                                    Colors.white,
+                                                  ],
+                                                ),
+                                                borderRadius:
+                                                    BorderRadius.circular(8),
+                                              ),
+                                              child: CustomPaint(
+                                                painter: _ArrowPainter(
+                                                  color: Colors.white,
+                                                  strokeWidth: context.getSize(
+                                                    mobile: 2.0,
+                                                    desktop: 3.0,
+                                                    smallDesktop: 2.5,
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                            // Gấu di chuyển từ phải sang trái
+                                            Positioned(
+                                              right: bearPosition,
+                                              top: 0,
+                                              child: Image.asset(
+                                                'assets/images/dudu_pointing.png',
+                                                height: context.getSize(
+                                                  mobile: 50,
+                                                  desktop: 70,
+                                                  smallDesktop: 60,
+                                                ),
+                                                fit: BoxFit.contain,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                              ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    // Container 2: Shadow dưới chân card - height cố định
+                    SizedBox(
+                      width: constraints.maxWidth, // Lấy max width theo parent
+                      height: 50, // Cố định height để không làm card nhảy
+                      child: AnimatedBuilder(
+                        animation: _shadowAnimation,
+                        builder: (context, child) {
+                          // Shadow animation mượt hơn, không reset đột ngột
+                          final shadowValue = _shadowAnimation.value;
+
+                          return Align(
+                            alignment: Alignment.topCenter,
+                            child: Container(
+                              margin: EdgeInsets.only(
+                                top: 10 + (shadowValue * 5),
+                              ),
+                              width: constraints.maxWidth *
+                                  0.75, // Shadow width dựa trên constraints
+                              height: 20 + (shadowValue * 10),
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(50),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withValues(
+                                        alpha: 0.5 - (shadowValue * 0.2)),
+                                    blurRadius: 30 + (shadowValue * 20),
+                                    spreadRadius: 5 + (shadowValue * 5),
+                                    offset: const Offset(0, 0),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ],
                 );
               },
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  // Front 1: Classic Red & Green
-  Widget _buildFront1(bool isMobile, bool isTablet, bool isDesktop) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.red.shade700,
-            Colors.green.shade700,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 20,
-            spreadRadius: 5,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.red.shade600,
-                Colors.green.shade600,
-              ],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.card_giftcard,
-                size: isMobile ? 60 : 80,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 24),
-              AppText(
-                'Merry Christmas',
-                style: GoogleFonts.playfairDisplay(
-                  fontSize: isMobile ? 28 : 36,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                  letterSpacing: 2,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Front 2: Gold & White Elegant
-  Widget _buildFront2(bool isMobile, bool isTablet, bool isDesktop) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.amber.shade700,
-            Colors.amber.shade900,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 20,
-            spreadRadius: 5,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.amber.shade600,
-                Colors.orange.shade700,
-              ],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.star,
-                size: isMobile ? 50 : 60,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 20),
-              AppText(
-                'May your Christmas be filled with warmth, laughter, and love!',
-                style: GoogleFonts.openSans(
-                  fontSize: isMobile ? 16 : 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  height: 1.4,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Front 3: Blue & Silver Winter
-  Widget _buildFront3(bool isMobile, bool isTablet, bool isDesktop) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.blue.shade700,
-            Colors.blue.shade900,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 20,
-            spreadRadius: 5,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.blue.shade600,
-                Colors.indigo.shade700,
-              ],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.ac_unit,
-                size: isMobile ? 50 : 60,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 20),
-              AppText(
-                'Sending you warmest wishes for a wonderful Christmas!',
-                style: GoogleFonts.openSans(
-                  fontSize: isMobile ? 16 : 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  height: 1.4,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Front 4: Purple & Pink Magical
-  Widget _buildFront4(bool isMobile, bool isTablet, bool isDesktop) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.purple.shade700,
-            Colors.pink.shade700,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 20,
-            spreadRadius: 5,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.purple.shade600,
-                Colors.pink.shade600,
-              ],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.auto_awesome,
-                size: isMobile ? 50 : 60,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 20),
-              AppText(
-                'May the magic of Christmas fill your heart with joy!',
-                style: GoogleFonts.openSans(
-                  fontSize: isMobile ? 16 : 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  height: 1.4,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Front 5: Green & Gold Traditional
-  Widget _buildFront5(bool isMobile, bool isTablet, bool isDesktop) {
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.green.shade800,
-            Colors.green.shade600,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 20,
-            spreadRadius: 5,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.green.shade700,
-                Colors.teal.shade700,
-              ],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.eco,
-                size: isMobile ? 50 : 60,
-                color: Colors.white,
-              ),
-              const SizedBox(height: 20),
-              AppText(
-                'Wishing you peace, happiness, and prosperity in the coming year!',
-                style: GoogleFonts.openSans(
-                  fontSize: isMobile ? 16 : 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  height: 1.4,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 16),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  // Back: Lời chúc (không dùng nữa, nhưng giữ lại để có thể dùng sau)
-  // ignore: unused_element
-  Widget _buildBack(bool isMobile, bool isTablet, bool isDesktop) {
-    const message =
-        'Wishing you joy, peace, and happiness this Christmas season! 🎄';
-
-    return Container(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Colors.green.shade700,
-            Colors.red.shade700,
-          ],
-        ),
-        borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.3),
-            blurRadius: 20,
-            spreadRadius: 5,
-          ),
-        ],
-      ),
-      child: ClipRRect(
-        borderRadius: BorderRadius.circular(20),
-        child: Container(
-          padding: const EdgeInsets.all(32),
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [
-                Colors.green.shade600,
-                Colors.red.shade600,
-              ],
-            ),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(
-                Icons.star,
-                size: isMobile ? 50 : 60,
-                color: Colors.yellow.shade300,
-              ),
-              const SizedBox(height: 24),
-              AppText(
-                message,
-                style: GoogleFonts.openSans(
-                  fontSize: isMobile ? 16 : 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.white,
-                  height: 1.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 24),
-              AppText(
-                '🎄 Chúc Mừng Giáng Sinh 🎄',
-                style: GoogleFonts.openSans(
-                  fontSize: isMobile ? 18 : 22,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ],
-          ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
-// Custom painter cho mũi tên swoosh
-class _SwooshArrowPainter extends CustomPainter {
+// Custom painter để vẽ mũi tên dài màu trắng
+class _ArrowPainter extends CustomPainter {
+  final Color color;
+  final double strokeWidth;
+
+  _ArrowPainter({
+    required this.color,
+    required this.strokeWidth,
+  });
+
   @override
   void paint(Canvas canvas, Size size) {
     final paint = Paint()
-      ..color = Colors.white
+      ..color = color.withOpacity(0.4) // Opacity 0.4
       ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0
+      ..strokeWidth = strokeWidth
       ..strokeCap = StrokeCap.round
       ..strokeJoin = StrokeJoin.round;
 
-    final shadowPaint = Paint()
-      ..color = Colors.black.withOpacity(0.3)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = 3.0
-      ..strokeCap = StrokeCap.round
-      ..strokeJoin = StrokeJoin.round
-      ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 2);
+    // Vẽ đường thẳng từ phải sang trái, dài 70% thanh slide
+    // Mũi tên dài 70% của container, căn giữa
+    final arrowLength = size.width * 0.6; // 70% chiều dài
+    final startX = size.width * 0.85; // Bắt đầu từ 85% bên phải
+    final startY = size.height / 2;
+    final endX =
+        startX - arrowLength; // Kết thúc cách startX một khoảng = 70% width
+    final endY = size.height / 2;
 
-    final path = Path();
-    final startX = size.width * 0.1;
-    final startY = size.height * 0.5;
-    final endX = size.width * 0.9;
-    final endY = size.height * 0.5;
-    final controlPoint1X = size.width * 0.3;
-    final controlPoint1Y = size.height * 0.2;
-    final controlPoint2X = size.width * 0.7;
-    final controlPoint2Y = size.height * 0.8;
-
-    // Vẽ đường cong swoosh
-    path.moveTo(startX, startY);
-    path.cubicTo(
-      controlPoint1X,
-      controlPoint1Y,
-      controlPoint2X,
-      controlPoint2Y,
-      endX,
-      endY,
+    // Vẽ đường thẳng chính
+    canvas.drawLine(
+      Offset(startX, startY),
+      Offset(endX, endY),
+      paint,
     );
 
-    // Vẽ shadow trước
-    canvas.save();
-    canvas.translate(1, 1);
-    canvas.drawPath(path, shadowPaint);
-    canvas.restore();
-
-    // Vẽ arrow chính
-    canvas.drawPath(path, paint);
-
-    // Vẽ arrowhead
-    final arrowheadSize = 8.0;
+    // Vẽ đầu mũi tên (tam giác)
+    final arrowheadSize = strokeWidth * 3;
     final arrowheadPath = Path();
     arrowheadPath.moveTo(endX, endY);
     arrowheadPath.lineTo(
-      endX - arrowheadSize,
+      endX + arrowheadSize,
       endY - arrowheadSize * 0.6,
     );
     arrowheadPath.lineTo(
-      endX - arrowheadSize * 0.5,
+      endX + arrowheadSize * 0.5,
       endY,
     );
     arrowheadPath.lineTo(
-      endX - arrowheadSize,
+      endX + arrowheadSize,
       endY + arrowheadSize * 0.6,
     );
     arrowheadPath.close();
 
-    // Vẽ shadow cho arrowhead
-    canvas.save();
-    canvas.translate(1, 1);
-    canvas.drawPath(arrowheadPath, shadowPaint);
-    canvas.restore();
-
-    // Vẽ arrowhead chính
+    // Vẽ đầu mũi tên
     final arrowheadPaint = Paint()
-      ..color = Colors.white
+      ..color = color.withOpacity(0.4) // Opacity 0.4
       ..style = PaintingStyle.fill;
     canvas.drawPath(arrowheadPath, arrowheadPaint);
   }

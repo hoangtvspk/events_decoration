@@ -45,9 +45,6 @@ class AppText extends StatelessWidget {
   /// The height behavior for the text (mobile/desktop only)
   final TextHeightBehavior? textHeightBehavior;
 
-  /// Selection color for SelectableText (web only)
-  final Color? selectionColor;
-
   /// Whether to enable text selection (web only, defaults to true on web)
   final bool? enableInteractiveSelection;
 
@@ -63,7 +60,6 @@ class AppText extends StatelessWidget {
     this.semanticsLabel,
     this.textWidthBasis,
     this.textHeightBehavior,
-    this.selectionColor,
     this.enableInteractiveSelection,
   });
 
@@ -80,7 +76,6 @@ class AppText extends StatelessWidget {
         maxLines: maxLines,
         semanticsLabel: semanticsLabel,
         textWidthBasis: textWidthBasis,
-        selectionColor: selectionColor,
         enableInteractiveSelection: enableInteractiveSelection ?? true,
       );
     }

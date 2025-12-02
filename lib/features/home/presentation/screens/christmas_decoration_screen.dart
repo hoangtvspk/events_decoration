@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:bui_bloc/core/widgets/text/text.dart';
+import 'package:bui_bloc/core/utils/screen_size_extension.dart';
 import '../widgets/christmas/snow_animation.dart';
 import '../widgets/christmas/christmas_tree.dart';
 import '../widgets/christmas/gift_box.dart';
@@ -57,11 +58,6 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600;
-    final isTablet = screenWidth >= 600 && screenWidth < 1024;
-    final isDesktop = screenWidth >= 1024;
-
     return Scaffold(
       body: Stack(
         children: [
@@ -88,26 +84,25 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
           SafeArea(
             child: FadeTransition(
               opacity: _fadeController,
-              child: isDesktop
-                  ? _buildDesktopNoScrollLayout(isMobile, isTablet, isDesktop)
+              child: context.isDesktop
+                  ? _buildDesktopNoScrollLayout(context)
                   : CustomScrollView(
                       physics: const BouncingScrollPhysics(),
                       slivers: [
                         // Header
-                        _buildHeader(isMobile, isTablet, isDesktop),
+                        _buildHeader(context),
 
                         // Main content
                         SliverPadding(
                           padding: EdgeInsets.symmetric(
-                            horizontal: isMobile
-                                ? 16
-                                : isTablet
-                                    ? 32
-                                    : 48,
+                            horizontal: context.getSize(
+                              mobile: 16,
+                              tablet: 32,
+                              desktop: 48,
+                            ),
                             vertical: 0,
                           ),
-                          sliver:
-                              _buildMobileLayout(isMobile, isTablet, isDesktop),
+                          sliver: _buildMobileLayout(context),
                         ),
                       ],
                     ),
@@ -118,18 +113,18 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
     );
   }
 
-  Widget _buildHeader(bool isMobile, bool isTablet, bool isDesktop) {
+  Widget _buildHeader(BuildContext context) {
     return SliverAppBar(
-      expandedHeight: isMobile
-          ? 100
-          : isTablet
-              ? 150
-              : 180,
-      collapsedHeight: isMobile
-          ? 80.0
-          : isTablet
-              ? 80.0
-              : 100.0,
+      expandedHeight: context.getSize(
+        mobile: 100,
+        tablet: 150,
+        desktop: 180,
+      ),
+      collapsedHeight: context.getSize(
+        mobile: 80.0,
+        tablet: 80.0,
+        desktop: 100.0,
+      ),
       floating: false,
       pinned: true,
       backgroundColor: Colors.transparent,
@@ -137,7 +132,7 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
       flexibleSpace: FlexibleSpaceBar(
         centerTitle: true,
         titlePadding: EdgeInsets.only(
-          bottom: isMobile ? 20 : 24,
+          bottom: context.getSize(mobile: 20, desktop: 24),
         ),
         background: Container(
           decoration: BoxDecoration(
@@ -182,21 +177,23 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
     );
   }
 
-  Widget _buildGreetingSection(bool isMobile, bool isTablet) {
+  Widget _buildGreetingSection(BuildContext context) {
     return FadeTransition(
       opacity: _fadeController,
       child: Container(
-        padding: EdgeInsets.all(isMobile ? 20 : 24),
+        padding: EdgeInsets.all(
+          context.getSize(mobile: 20, desktop: 24),
+        ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.red.withOpacity(0.2),
-              Colors.green.withOpacity(0.2),
+              Colors.red.withValues(alpha: 0.2),
+              Colors.green.withValues(alpha: 0.2),
             ],
           ),
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: Colors.white.withOpacity(0.2),
+            color: Colors.white.withValues(alpha: 0.2),
             width: 1,
           ),
         ),
@@ -205,22 +202,22 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
             AppText(
               '🎄 Chúc Mừng Giáng Sinh 🎄',
               style: GoogleFonts.openSans(
-                fontSize: isMobile
-                    ? 20
-                    : isTablet
-                        ? 24
-                        : 28,
+                fontSize: context.getSize(
+                  mobile: 20,
+                  tablet: 24,
+                  desktop: 28,
+                ),
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: isMobile ? 8 : 12),
+            SizedBox(height: context.getSize(mobile: 8, desktop: 12)),
             AppText(
               'Wishing you a joyful Christmas filled with love, peace, and happiness!',
               style: GoogleFonts.openSans(
-                fontSize: isMobile ? 14 : 16,
-                color: Colors.white.withOpacity(0.9),
+                fontSize: context.getSize(mobile: 14, desktop: 16),
+                color: Colors.white.withValues(alpha: 0.9),
               ),
               textAlign: TextAlign.center,
             ),
@@ -230,106 +227,108 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
     );
   }
 
-  Widget _buildMobileLayout(bool isMobile, bool isTablet, bool isDesktop) {
+  Widget _buildMobileLayout(BuildContext context) {
     return SliverList(
       delegate: SliverChildListDelegate([
         // Greeting section
-        _buildGreetingSection(isMobile, isTablet),
+        _buildGreetingSection(context),
 
-        SizedBox(height: isMobile ? 24 : 40),
+        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
 
         // Christmas tree section
-        _buildTreeSection(isMobile, isTablet, isDesktop),
+        _buildTreeSection(context),
 
-        SizedBox(height: isMobile ? 24 : 40),
+        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
 
-        FlipGreetingCard(
-          isMobile: isMobile,
-          isTablet: isTablet,
-          isDesktop: isDesktop,
-        ),
+        const FlipGreetingCard(),
 
-        SizedBox(height: isMobile ? 24 : 40),
+        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
 
         // Gifts section
-        _buildGiftsSection(isMobile, isTablet, isDesktop),
+        _buildGiftsSection(context),
 
-        SizedBox(height: isMobile ? 24 : 40),
+        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
 
         // Lights section
-        _buildLightsSection(isMobile, isTablet, isDesktop),
+        _buildLightsSection(context),
 
-        SizedBox(height: isMobile ? 24 : 40),
+        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
 
         // Message section
-        _buildMessageSection(isMobile, isTablet),
+        _buildMessageSection(context),
 
         SizedBox(height: 32),
       ]),
     );
   }
 
-  Widget _buildDesktopNoScrollLayout(
-      bool isMobile, bool isTablet, bool isDesktop) {
+  Widget _buildDesktopNoScrollLayout(BuildContext context) {
     return Column(
       children: [
         // Header - fixed at top
-        _buildDesktopHeader(isMobile, isTablet, isDesktop),
+        _buildDesktopHeader(context),
 
         // Main content - takes remaining space
         Expanded(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 200),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // Một tấm thẻ có thể lật được, mỗi lần lật sẽ tạo hiển thị một Content khác nhau
-                // Trước mắt hiển thị một tấm thẻ với nội dung là một lời chúc, sau đó chúng ta sẽ thay đổi sau
-                FlipGreetingCard(
-                  isMobile: isMobile,
-                  isTablet: isTablet,
-                  isDesktop: isDesktop,
-                ),
-                const SizedBox(width: 48),
-                Expanded(
-                  child: _buildTreeSection(isMobile, isTablet, isDesktop),
-                ),
+            child: IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  // Một tấm thẻ có thể lật được, mỗi lần lật sẽ tạo hiển thị một Content khác nhau
+                  // Trước mắt hiển thị một tấm thẻ với nội dung là một lời chúc, sau đó chúng ta sẽ thay đổi sau
+                  // FlipGreetingCard với tỷ lệ 16:9, chiều cao lấy maximum của content
+                  const Expanded(
+                    child: Row(
+                      children: [
+                        AspectRatio(
+                          aspectRatio: 9 / 16,
+                          child: FlipGreetingCard(),
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 48),
 
-                // Tree section - takes remaining space
-              ],
+                  _buildTreeSection(context),
+
+                  // Tree section - takes remaining space
+                ],
+              ),
             ),
           ),
         ),
 
         // Lights section - fixed at bottom
-        _buildLightsSection(isMobile, isTablet, isDesktop),
+        _buildLightsSection(context),
       ],
     );
   }
 
-  Widget _buildDesktopHeader(bool isMobile, bool isTablet, bool isDesktop) {
-    return Container(
-      height: 180,
-      padding: const EdgeInsets.symmetric(horizontal: 80),
+  Widget _buildDesktopHeader(BuildContext context) {
+    return SizedBox(
+      height: context.getSize(mobile: 120, desktop: 180, smallDesktop: 140),
       child: Center(
         child: AnimatedBuilder(
           animation: _iconPulseController,
           builder: (context, child) {
-            return Image.asset('assets/images/header_text.png', height: 120);
+            return Image.asset('assets/images/header_text.png',
+                height: context.getSize(
+                    mobile: 100, desktop: 120, smallDesktop: 100));
           },
         ),
       ),
     );
   }
 
-  Widget _buildTreeSection(bool isMobile, bool isTablet, bool isDesktop) {
-    final treeSize = isMobile
-        ? 180.0
-        : isTablet
-            ? 220.0
-            : isDesktop
-                ? 400.0
-                : 280.0;
+  Widget _buildTreeSection(BuildContext context) {
+    final treeSize = context.getSize(
+      mobile: 180.0,
+      tablet: 220.0,
+      desktop: 400.0,
+      smallDesktop: 280.0,
+    );
 
     return SlideTransition(
       position: Tween<Offset>(
@@ -340,11 +339,9 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
         curve: const Interval(0.2, 1.0, curve: Curves.easeOutCubic),
       )),
       child: Container(
-        padding: EdgeInsets.all(isMobile
-            ? 20
-            : isDesktop
-                ? 0
-                : 32),
+        padding: EdgeInsets.all(
+          context.getSize(mobile: 20, tablet: 32, desktop: 0),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -365,21 +362,21 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
     );
   }
 
-  Widget _buildGiftsSection(bool isMobile, bool isTablet, bool isDesktop) {
-    final giftSize = isMobile
-        ? 70.0
-        : isTablet
-            ? 85.0
-            : isDesktop
-                ? 110.0
-                : 100.0;
-    final crossAxisCount = isMobile
-        ? 3
-        : isTablet
-            ? 4
-            : isDesktop
-                ? 3
-                : 5;
+  Widget _buildGiftsSection(BuildContext context) {
+    final giftSize = context.getSize(
+      mobile: 70.0,
+      tablet: 85.0,
+      desktop: 110.0,
+      smallDesktop: 100.0,
+    );
+    final crossAxisCount = context
+        .getSize(
+          mobile: 3.0,
+          tablet: 4.0,
+          desktop: 3.0,
+          smallDesktop: 5.0,
+        )
+        .toInt();
 
     return SlideTransition(
       position: Tween<Offset>(
@@ -390,12 +387,14 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
         curve: const Interval(0.3, 1.0, curve: Curves.easeOutCubic),
       )),
       child: Container(
-        padding: EdgeInsets.all(isMobile ? 20 : 32),
+        padding: EdgeInsets.all(
+          context.getSize(mobile: 20, desktop: 32),
+        ),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.05),
+          color: Colors.white.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: Colors.red.withOpacity(0.3),
+            color: Colors.red.withValues(alpha: 0.3),
             width: 2,
           ),
         ),
@@ -406,8 +405,8 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: crossAxisCount,
-                crossAxisSpacing: isMobile ? 12 : 16,
-                mainAxisSpacing: isMobile ? 12 : 16,
+                crossAxisSpacing: context.getSize(mobile: 12, desktop: 16),
+                mainAxisSpacing: context.getSize(mobile: 12, desktop: 16),
                 childAspectRatio: 1,
               ),
               itemCount: crossAxisCount * 2,
@@ -433,14 +432,15 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
     );
   }
 
-  Widget _buildLightsSection(bool isMobile, bool isTablet, bool isDesktop) {
-    final lightCount = isMobile
-        ? 5
-        : isTablet
-            ? 7
-            : isDesktop
-                ? 15
-                : 9;
+  Widget _buildLightsSection(BuildContext context) {
+    final lightCount = context
+        .getSize(
+          mobile: 5.0,
+          tablet: 7.0,
+          desktop: 15.0,
+          smallDesktop: 9.0,
+        )
+        .toInt();
 
     return SlideTransition(
       position: Tween<Offset>(
@@ -451,12 +451,14 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
         curve: const Interval(0.4, 1.0, curve: Curves.easeOutCubic),
       )),
       child: Container(
-        padding: EdgeInsets.all(isMobile ? 20 : 32),
+        padding: EdgeInsets.all(
+          context.getSize(mobile: 20, desktop: 32, smallDesktop: 20),
+        ),
         // decoration: BoxDecoration(
-        //   color: Colors.white.withOpacity(0.05),
+        //   color: Colors.white.withValues(alpha: 0.05),
         //   borderRadius: BorderRadius.circular(24),
         //   border: Border.all(
-        //     color: Colors.yellow.withOpacity(0.3),
+        //     color: Colors.yellow.withValues(alpha: 0.3),
         //     width: 2,
         //   ),
         // ),
@@ -464,11 +466,12 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
           children: [
             LightString(
               count: lightCount,
-              spacing: isMobile
-                  ? 30
-                  : isDesktop
-                      ? 50
-                      : 40,
+              spacing: context.getSize(
+                mobile: 30,
+                tablet: 40,
+                desktop: 50,
+                smallDesktop: 40,
+              ),
             ),
           ],
         ),
@@ -476,24 +479,26 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
     );
   }
 
-  Widget _buildMessageSection(bool isMobile, bool isTablet) {
+  Widget _buildMessageSection(BuildContext context) {
     return FadeTransition(
       opacity: CurvedAnimation(
         parent: _fadeController,
         curve: const Interval(0.5, 1.0),
       ),
       child: Container(
-        padding: EdgeInsets.all(isMobile ? 20 : 32),
+        padding: EdgeInsets.all(
+          context.getSize(mobile: 20, desktop: 32),
+        ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.red.withOpacity(0.3),
-              Colors.green.withOpacity(0.3),
+              Colors.red.withValues(alpha: 0.3),
+              Colors.green.withValues(alpha: 0.3),
             ],
           ),
           borderRadius: BorderRadius.circular(24),
           border: Border.all(
-            color: Colors.white.withOpacity(0.3),
+            color: Colors.white.withValues(alpha: 0.3),
             width: 2,
           ),
         ),
@@ -502,27 +507,27 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
             AppText(
               '🎅 Ho Ho Ho! 🎅',
               style: GoogleFonts.openSans(
-                fontSize: isMobile ? 24 : 28,
+                fontSize: context.getSize(mobile: 24, desktop: 28),
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: isMobile ? 12 : 16),
+            SizedBox(height: context.getSize(mobile: 12, desktop: 16)),
             AppText(
               'May this Christmas bring you warmth, joy, and wonderful memories with your loved ones.',
               style: GoogleFonts.openSans(
-                fontSize: isMobile ? 14 : 16,
-                color: Colors.white.withOpacity(0.9),
+                fontSize: context.getSize(mobile: 14, desktop: 16),
+                color: Colors.white.withValues(alpha: 0.9),
                 height: 1.5,
               ),
               textAlign: TextAlign.center,
             ),
-            SizedBox(height: isMobile ? 12 : 16),
+            SizedBox(height: context.getSize(mobile: 12, desktop: 16)),
             AppText(
               '✨ Merry Christmas & Happy New Year! ✨',
               style: GoogleFonts.openSans(
-                fontSize: isMobile ? 16 : 18,
+                fontSize: context.getSize(mobile: 16, desktop: 18),
                 fontWeight: FontWeight.w600,
                 color: Colors.yellow,
               ),

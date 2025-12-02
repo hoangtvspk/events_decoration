@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bui_bloc/core/utils/screen_size_extension.dart';
 
 class LightBulb extends StatefulWidget {
   final double size;
@@ -45,11 +46,11 @@ class _LightBulbState extends State<LightBulb>
           width: widget.size,
           height: widget.size,
           decoration: BoxDecoration(
-            color: widget.color.withOpacity(brightness),
+            color: widget.color.withValues(alpha: brightness),
             shape: BoxShape.circle,
             boxShadow: [
               BoxShadow(
-                color: widget.color.withOpacity(brightness * 0.8),
+                color: widget.color.withValues(alpha: brightness * 0.8),
                 blurRadius: widget.size * 0.5,
                 spreadRadius: widget.size * 0.2,
               ),
@@ -58,7 +59,7 @@ class _LightBulbState extends State<LightBulb>
           child: Container(
             margin: EdgeInsets.all(widget.size * 0.2),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.3),
+              color: Colors.white.withValues(alpha: 0.3),
               shape: BoxShape.circle,
             ),
           ),
@@ -90,7 +91,8 @@ class LightString extends StatelessWidget {
   Widget build(BuildContext context) {
     return LayoutBuilder(
       builder: (context, constraints) {
-        final bulbSize = 30.0;
+        final bulbSize =
+            context.getSize(mobile: 25, desktop: 30, smallDesktop: 25);
         final totalBulbWidth = count * bulbSize;
         final availableWidth = constraints.maxWidth.isFinite
             ? constraints.maxWidth
@@ -111,6 +113,7 @@ class LightString extends StatelessWidget {
               child: LightBulb(
                 color: colors[index % colors.length],
                 delay: index * 0.2,
+                size: bulbSize,
               ),
             );
           }),
