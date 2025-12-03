@@ -69,10 +69,10 @@ class Front3 extends StatelessWidget {
                                       desktop: 20,
                                       smallDesktop: 10)),
                               Text(
-                                'Sending you warmest wishes for a wonderful Christmas!',
+                                'Chúc em bé một mùa giáng sinh với trái tim được sưởi ấm, có gia đình, có mọi thứ, và có anh! ❤️',
                                 style: GoogleFonts.openSans(
                                   fontSize: context.getSize(
-                                      mobile: 12,
+                                      mobile: 18,
                                       desktop: 20,
                                       smallDesktop: 18),
                                   fontWeight: FontWeight.w500,

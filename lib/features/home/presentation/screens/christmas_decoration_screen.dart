@@ -230,34 +230,27 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
   Widget _buildMobileLayout(BuildContext context) {
     return SliverList(
       delegate: SliverChildListDelegate([
-        // Greeting section
-        _buildGreetingSection(context),
-
-        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
-
         // Christmas tree section
         _buildTreeSection(context),
 
-        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
+        const SizedBox(height: 24),
 
         const FlipGreetingCard(),
 
-        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
+        const SizedBox(height: 24),
 
-        // Gifts section
-        _buildGiftsSection(context),
-
-        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
+        // // Gifts section
+        // _buildGiftsSection(context),
 
         // Lights section
         _buildLightsSection(context),
 
-        SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
+        // SizedBox(height: context.getSize(mobile: 24, desktop: 40)),
 
-        // Message section
-        _buildMessageSection(context),
+        // // Message section
+        // _buildMessageSection(context),
 
-        SizedBox(height: 32),
+        // SizedBox(height: 32),
       ]),
     );
   }

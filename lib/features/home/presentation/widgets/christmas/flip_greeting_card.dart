@@ -265,163 +265,28 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
             scale: _disappearAnimation.value,
             child: LayoutBuilder(
               builder: (context, constraints) {
+                // Kiểm tra nếu constraints có height bounded hay không
+                final hasBoundedHeight =
+                    constraints.maxHeight != double.infinity;
+
                 return Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    // Container 1: Card với flip animation - Expanded để lấy hết chiều cao còn lại
-                    Expanded(
-                      child: SizedBox(
-                        width: constraints.maxWidth,
-                        child: Stack(
-                          clipBehavior:
-                              Clip.none, // Không clip để hình không bị cắt
-                          children: [
-                            MouseRegion(
-                              cursor: SystemMouseCursors.click,
-                              child: GestureDetector(
-                                onPanStart: _onPanStart,
-                                onPanUpdate: _onPanUpdate,
-                                onPanEnd: _onPanEnd,
-                                child: AnimatedBuilder(
-                                  animation: _animation,
-                                  builder: (context, child) {
-                                    // Dùng flag _isFlippingBackward thay vì check controller status
-                                    // để tránh race condition khi animation hoàn thành
-                                    final normalizedValue = _isFlippingBackward
-                                        ? 1.0 - _animation.value
-                                        : _animation.value;
-
-                                    // Để lật từ trái sang phải khi backward, cần đảo ngược góc rotateY
-                                    final angle = _isFlippingBackward
-                                        ? -normalizedValue *
-                                            3.14159 // Negative angle để lật ngược lại
-                                        : normalizedValue *
-                                            3.14159; // Positive angle để lật từ phải sang trái
-
-                                    return BlocBuilder<HomeBloc, HomeState>(
-                                      builder: (context, state) {
-                                        final currentIndex =
-                                            state.greetingCardIndex;
-                                        final isShowingCurrentFront =
-                                            normalizedValue < 0.5;
-
-                                        // Tính toán mặt tiếp theo (forward) hoặc trước đó (backward)
-                                        final nextIndex = (currentIndex + 1) %
-                                            _frontBuilders.length;
-                                        final previousIndex = (currentIndex -
-                                                1 +
-                                                _frontBuilders.length) %
-                                            _frontBuilders.length;
-                                        final targetIndex = _isFlippingBackward
-                                            ? previousIndex
-                                            : nextIndex;
-
-                                        return Transform(
-                                          alignment: Alignment.center,
-                                          transform: Matrix4.identity()
-                                            ..setEntry(
-                                                3, 2, 0.001) // Perspective
-                                            ..rotateY(angle),
-                                          child: isShowingCurrentFront
-                                              ? _frontBuilders[currentIndex](
-                                                  context)
-                                              : Transform(
-                                                  alignment: Alignment.center,
-                                                  transform: Matrix4.identity()
-                                                    ..rotateY(3.14159),
-                                                  child: _frontBuilders[
-                                                      targetIndex](context),
-                                                ),
-                                        );
-                                      },
-                                    );
-                                  },
-                                ),
-                              ),
+                    // Container 1: Card với flip animation
+                    // Dùng Expanded nếu có bounded height, nếu không dùng SizedBox với height cụ thể
+                    hasBoundedHeight
+                        ? Expanded(
+                            child: SizedBox(
+                              width: constraints.maxWidth,
+                              child: _buildCardStack(constraints),
                             ),
-                            // Gấu di chuyển animation - hiển thị sau 2s, di chuyển từ phải sang trái
-                            if (!_hasStartedDragging)
-                              Positioned(
-                                right: 20,
-                                bottom: 50,
-                                child: AnimatedBuilder(
-                                  animation: Listenable.merge([
-                                    _arrowAnimation,
-                                    _arrowOpacityAnimation,
-                                  ]),
-                                  builder: (context, child) {
-                                    // Tính toán vị trí gấu: từ phải (right: 0) sang trái (right: 90% của container)
-                                    // _arrowAnimation.value từ 0.0 đến 0.9
-                                    // Khi value = 0.0: right = 0 (gấu ở bên phải)
-                                    // Khi value = 0.9: right = 0.7 * width * 0.9 (gấu ở 90% từ phải)
-                                    final bearPosition = constraints.maxWidth *
-                                        0.7 *
-                                        _arrowAnimation.value;
-
-                                    return IgnorePointer(
-                                      child: Opacity(
-                                        opacity: _arrowOpacityAnimation.value,
-                                        child: Stack(
-                                          clipBehavior: Clip
-                                              .none, // Không clip để hình không bị cắt
-                                          children: [
-                                            // Slide bar
-                                            Container(
-                                              width: constraints.maxWidth * 0.7,
-                                              height: context.getSize(
-                                                mobile: 20,
-                                                desktop: 40,
-                                                smallDesktop: 30,
-                                              ),
-                                              decoration: BoxDecoration(
-                                                gradient: LinearGradient(
-                                                  colors: [
-                                                    Colors.white
-                                                        .withValues(alpha: 0.0),
-                                                    Colors.white
-                                                        .withValues(alpha: 0.5),
-                                                    Colors.white,
-                                                  ],
-                                                ),
-                                                borderRadius:
-                                                    BorderRadius.circular(8),
-                                              ),
-                                              child: CustomPaint(
-                                                painter: _ArrowPainter(
-                                                  color: Colors.white,
-                                                  strokeWidth: context.getSize(
-                                                    mobile: 2.0,
-                                                    desktop: 3.0,
-                                                    smallDesktop: 2.5,
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                            // Gấu di chuyển từ phải sang trái
-                                            Positioned(
-                                              right: bearPosition,
-                                              top: 0,
-                                              child: Image.asset(
-                                                'assets/images/dudu_pointing.png',
-                                                height: context.getSize(
-                                                  mobile: 50,
-                                                  desktop: 70,
-                                                  smallDesktop: 60,
-                                                ),
-                                                fit: BoxFit.contain,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    );
-                                  },
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    ),
+                          )
+                        : SizedBox(
+                            width: constraints.maxWidth,
+                            height: constraints.maxWidth *
+                                (16 / 9), // 16:9 aspect ratio
+                            child: _buildCardStack(constraints),
+                          ),
                     // Container 2: Shadow dưới chân card - height cố định
                     SizedBox(
                       width: constraints.maxWidth, // Lấy max width theo parent
@@ -465,6 +330,144 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
           ),
         );
       },
+    );
+  }
+
+  Widget _buildCardStack(BoxConstraints constraints) {
+    return Stack(
+      clipBehavior: Clip.none, // Không clip để hình không bị cắt
+      children: [
+        MouseRegion(
+          cursor: SystemMouseCursors.click,
+          child: GestureDetector(
+            onPanStart: _onPanStart,
+            onPanUpdate: _onPanUpdate,
+            onPanEnd: _onPanEnd,
+            child: AnimatedBuilder(
+              animation: _animation,
+              builder: (context, child) {
+                // Dùng flag _isFlippingBackward thay vì check controller status
+                // để tránh race condition khi animation hoàn thành
+                final normalizedValue = _isFlippingBackward
+                    ? 1.0 - _animation.value
+                    : _animation.value;
+
+                // Để lật từ trái sang phải khi backward, cần đảo ngược góc rotateY
+                final angle = _isFlippingBackward
+                    ? -normalizedValue *
+                        3.14159 // Negative angle để lật ngược lại
+                    : normalizedValue *
+                        3.14159; // Positive angle để lật từ phải sang trái
+
+                return BlocBuilder<HomeBloc, HomeState>(
+                  builder: (context, state) {
+                    final currentIndex = state.greetingCardIndex;
+                    final isShowingCurrentFront = normalizedValue < 0.5;
+
+                    // Tính toán mặt tiếp theo (forward) hoặc trước đó (backward)
+                    final nextIndex =
+                        (currentIndex + 1) % _frontBuilders.length;
+                    final previousIndex =
+                        (currentIndex - 1 + _frontBuilders.length) %
+                            _frontBuilders.length;
+                    final targetIndex =
+                        _isFlippingBackward ? previousIndex : nextIndex;
+
+                    return Transform(
+                      alignment: Alignment.center,
+                      transform: Matrix4.identity()
+                        ..setEntry(3, 2, 0.001) // Perspective
+                        ..rotateY(angle),
+                      child: isShowingCurrentFront
+                          ? _frontBuilders[currentIndex](context)
+                          : Transform(
+                              alignment: Alignment.center,
+                              transform: Matrix4.identity()..rotateY(3.14159),
+                              child: _frontBuilders[targetIndex](context),
+                            ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
+        ),
+        // Gấu di chuyển animation - hiển thị sau 2s, di chuyển từ phải sang trái
+        if (!_hasStartedDragging)
+          Positioned(
+            right: 20,
+            bottom: 50,
+            child: AnimatedBuilder(
+              animation: Listenable.merge([
+                _arrowAnimation,
+                _arrowOpacityAnimation,
+              ]),
+              builder: (context, child) {
+                // Tính toán vị trí gấu: từ phải (right: 0) sang trái (right: 90% của container)
+                // _arrowAnimation.value từ 0.0 đến 0.9
+                // Khi value = 0.0: right = 0 (gấu ở bên phải)
+                // Khi value = 0.9: right = 0.7 * width * 0.9 (gấu ở 90% từ phải)
+                final bearPosition =
+                    constraints.maxWidth * 0.7 * _arrowAnimation.value;
+
+                return IgnorePointer(
+                  child: Opacity(
+                    opacity: _arrowOpacityAnimation.value,
+                    child: Stack(
+                      clipBehavior:
+                          Clip.none, // Không clip để hình không bị cắt
+                      children: [
+                        // Slide bar
+                        Container(
+                          width: constraints.maxWidth * 0.7,
+                          height: context.getSize(
+                            mobile: 20,
+                            desktop: 40,
+                            smallDesktop: 30,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              colors: [
+                                Colors.white.withValues(alpha: 0.0),
+                                Colors.white.withValues(alpha: 0.5),
+                                Colors.white,
+                              ],
+                            ),
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: CustomPaint(
+                            painter: _ArrowPainter(
+                              color: Colors.white,
+                              strokeWidth: context.getSize(
+                                mobile: 2.0,
+                                desktop: 3.0,
+                                smallDesktop: 2.5,
+                              ),
+                            ),
+                          ),
+                        ),
+                        // Gấu di chuyển từ phải sang trái
+                        Positioned(
+                          right: bearPosition,
+                          top: 0,
+                          child: Image.asset(
+                            'assets/images/dudu_pointing.png',
+                            height: context.getSize(
+                              mobile: 50,
+                              desktop: 70,
+                              smallDesktop: 60,
+                            ),
+                            fit: BoxFit.contain,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              },
+            ),
+          ),
+      ],
     );
   }
 }

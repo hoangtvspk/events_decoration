@@ -29,9 +29,9 @@ class Front4 extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         const Color.fromARGB(255, 79, 92, 98)
-                            .withValues(alpha: 0.8),
+                            .withValues(alpha: 0.9),
                         const Color.fromARGB(255, 79, 92, 98)
-                            .withValues(alpha: 0.2),
+                            .withValues(alpha: 0.5),
                         Colors.transparent,
                       ],
                       stops: const [0.0, 0.3, 1.0],
@@ -69,10 +69,10 @@ class Front4 extends StatelessWidget {
                                       desktop: 20,
                                       smallDesktop: 10)),
                               Text(
-                                'May the magic of Christmas fill your heart with joy!',
+                                'Mọi nỗ lực rồi sẽ được gặt hái thành quả, hãy cứ tiếp tục làm thật tốt, chặng đường còn dài những có anh bước tiếp cùng em 🍀',
                                 style: GoogleFonts.openSans(
                                   fontSize: context.getSize(
-                                      mobile: 12,
+                                      mobile: 18,
                                       desktop: 20,
                                       smallDesktop: 18),
                                   fontWeight: FontWeight.w500,

@@ -52,9 +52,9 @@ class Front5 extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 AppText(
-                  'Wishing you peace, happiness, and prosperity in the coming year!',
+                  'Wishing you peace 🎄\nThương bản thân nhiều hơn nhé! Em luôn xứng đáng được yêu! 🥰',
                   style: GoogleFonts.openSans(
-                    fontSize: context.getSize(mobile: 16, desktop: 20),
+                    fontSize: context.getSize(mobile: 18, desktop: 20),
                     fontWeight: FontWeight.w500,
                     color: Colors.white,
                     height: 1.4,
@@ -70,4 +70,3 @@ class Front5 extends StatelessWidget {
     );
   }
 }
-
