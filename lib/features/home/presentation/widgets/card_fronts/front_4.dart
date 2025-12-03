@@ -69,7 +69,7 @@ class Front4 extends StatelessWidget {
                                       desktop: 20,
                                       smallDesktop: 10)),
                               Text(
-                                'Mọi nỗ lực rồi sẽ được gặt hái thành quả, hãy cứ tiếp tục làm thật tốt, chặng đường còn dài những có anh bước tiếp cùng em 🍀',
+                                'Mọi nỗ lực rồi sẽ được gặt hái thành quả, hãy cứ tiếp tục làm thật tốt, chặng đường tuy còn dài nhưng có anh bước tiếp cùng em 🍀',
                                 style: GoogleFonts.openSans(
                                   fontSize: context.getSize(
                                       mobile: 18,
