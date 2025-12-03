@@ -43,7 +43,7 @@ class Front2 extends StatelessWidget {
                 builder: (context, constraints) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Padding(
                           padding: EdgeInsets.all(context.getSize(
@@ -99,10 +99,10 @@ class Front2 extends StatelessWidget {
                           )),
                       // width 30% of the container
                       Image.asset(
-                        'assets/images/embe_1.png',
+                        'assets/images/embe_6.png',
                         width: context.getSize(
-                            mobile: constraints.maxWidth * 0.5,
-                            desktop: constraints.maxWidth * 0.7),
+                            mobile: constraints.maxWidth * 0.3,
+                            desktop: constraints.maxWidth * 0.5),
                         fit: BoxFit.contain,
                       ),
                     ],
