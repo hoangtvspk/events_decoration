@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bui_bloc/core/utils/screen_size_extension.dart';
+import '../../../business_logic/home_bloc.dart';
 import '../card_fronts/front_1.dart';
 import '../card_fronts/front_2.dart';
 import '../card_fronts/front_3.dart';
@@ -24,7 +26,6 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
   late Animation<double> _shadowAnimation;
   late AnimationController _disappearController;
   late Animation<double> _disappearAnimation;
-  int _currentIndex = 0;
   double _dragStartX = 0.0;
   bool _isDragging = false;
   bool _isFlippingBackward = false; // Track flip direction
@@ -144,8 +145,9 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
     // Swipe từ phải sang trái: lật từ phải sang trái → nội dung tiếp theo
     if (_controller.isAnimating || _isCompleted) return;
 
+    final currentIndex = context.read<HomeBloc>().state.greetingCardIndex;
     // Kiểm tra nếu đang ở thẻ cuối và sẽ về thẻ 1
-    final isLastCard = _currentIndex == _frontBuilders.length - 1;
+    final isLastCard = currentIndex == _frontBuilders.length - 1;
 
     setState(() {
       _isFlippingBackward = false;
@@ -155,14 +157,19 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
     _shadowController.forward();
 
     _controller.forward().then((_) {
-      // Update index và reset trong cùng một setState
+      // Update index trong BLoC
+      context.read<HomeBloc>().add(
+            HomeEvent.flipGreetingCardForward(_frontBuilders.length),
+          );
+
+      final newIndex = (currentIndex + 1) % _frontBuilders.length;
+
       setState(() {
-        _currentIndex = (_currentIndex + 1) % _frontBuilders.length;
         _controller.value = 0.0;
         _isFlippingBackward = false;
 
         // Nếu đã về thẻ 1 từ thẻ cuối, đánh dấu hoàn thành và bắt đầu animation thu nhỏ
-        if (isLastCard && _currentIndex == 0) {
+        if (isLastCard && newIndex == 0) {
           _isCompleted = true;
         }
       });
@@ -173,7 +180,7 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
       });
 
       // Nếu đã hoàn thành, bắt đầu animation thu nhỏ
-      if (isLastCard && _currentIndex == 0) {
+      if (isLastCard && newIndex == 0) {
         _disappearController.forward();
       }
     });
@@ -182,7 +189,8 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
   void _flipBackward() {
     // Swipe từ trái sang phải: lật từ trái sang phải → nội dung trước đó
     // Không cho lật nếu đang ở thẻ đầu hoặc đã hoàn thành
-    if (_controller.isAnimating || _isCompleted || _currentIndex == 0) return;
+    final currentIndex = context.read<HomeBloc>().state.greetingCardIndex;
+    if (_controller.isAnimating || _isCompleted || currentIndex == 0) return;
 
     setState(() {
       _isFlippingBackward = true;
@@ -194,10 +202,12 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
     // Set controller về end state trước, rồi reverse
     _controller.value = 1.0;
     _controller.reverse().then((_) {
-      // Update index và reset trong cùng một setState
+      // Update index trong BLoC
+      context.read<HomeBloc>().add(
+            HomeEvent.flipGreetingCardBackward(_frontBuilders.length),
+          );
+
       setState(() {
-        _currentIndex =
-            (_currentIndex - 1 + _frontBuilders.length) % _frontBuilders.length;
         _controller.value = 0.0;
         _isFlippingBackward = false;
       });
@@ -266,56 +276,67 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
                           clipBehavior:
                               Clip.none, // Không clip để hình không bị cắt
                           children: [
-                            GestureDetector(
-                              onPanStart: _onPanStart,
-                              onPanUpdate: _onPanUpdate,
-                              onPanEnd: _onPanEnd,
-                              child: AnimatedBuilder(
-                                animation: _animation,
-                                builder: (context, child) {
-                                  // Dùng flag _isFlippingBackward thay vì check controller status
-                                  // để tránh race condition khi animation hoàn thành
-                                  final normalizedValue = _isFlippingBackward
-                                      ? 1.0 - _animation.value
-                                      : _animation.value;
+                            MouseRegion(
+                              cursor: SystemMouseCursors.click,
+                              child: GestureDetector(
+                                onPanStart: _onPanStart,
+                                onPanUpdate: _onPanUpdate,
+                                onPanEnd: _onPanEnd,
+                                child: AnimatedBuilder(
+                                  animation: _animation,
+                                  builder: (context, child) {
+                                    // Dùng flag _isFlippingBackward thay vì check controller status
+                                    // để tránh race condition khi animation hoàn thành
+                                    final normalizedValue = _isFlippingBackward
+                                        ? 1.0 - _animation.value
+                                        : _animation.value;
 
-                                  // Để lật từ trái sang phải khi backward, cần đảo ngược góc rotateY
-                                  final angle = _isFlippingBackward
-                                      ? -normalizedValue *
-                                          3.14159 // Negative angle để lật ngược lại
-                                      : normalizedValue *
-                                          3.14159; // Positive angle để lật từ phải sang trái
+                                    // Để lật từ trái sang phải khi backward, cần đảo ngược góc rotateY
+                                    final angle = _isFlippingBackward
+                                        ? -normalizedValue *
+                                            3.14159 // Negative angle để lật ngược lại
+                                        : normalizedValue *
+                                            3.14159; // Positive angle để lật từ phải sang trái
 
-                                  final isShowingCurrentFront =
-                                      normalizedValue < 0.5;
+                                    return BlocBuilder<HomeBloc, HomeState>(
+                                      builder: (context, state) {
+                                        final currentIndex =
+                                            state.greetingCardIndex;
+                                        final isShowingCurrentFront =
+                                            normalizedValue < 0.5;
 
-                                  // Tính toán mặt tiếp theo (forward) hoặc trước đó (backward)
-                                  final nextIndex = (_currentIndex + 1) %
-                                      _frontBuilders.length;
-                                  final previousIndex = (_currentIndex -
-                                          1 +
-                                          _frontBuilders.length) %
-                                      _frontBuilders.length;
-                                  final targetIndex = _isFlippingBackward
-                                      ? previousIndex
-                                      : nextIndex;
+                                        // Tính toán mặt tiếp theo (forward) hoặc trước đó (backward)
+                                        final nextIndex = (currentIndex + 1) %
+                                            _frontBuilders.length;
+                                        final previousIndex = (currentIndex -
+                                                1 +
+                                                _frontBuilders.length) %
+                                            _frontBuilders.length;
+                                        final targetIndex = _isFlippingBackward
+                                            ? previousIndex
+                                            : nextIndex;
 
-                                  return Transform(
-                                    alignment: Alignment.center,
-                                    transform: Matrix4.identity()
-                                      ..setEntry(3, 2, 0.001) // Perspective
-                                      ..rotateY(angle),
-                                    child: isShowingCurrentFront
-                                        ? _frontBuilders[_currentIndex](context)
-                                        : Transform(
-                                            alignment: Alignment.center,
-                                            transform: Matrix4.identity()
-                                              ..rotateY(3.14159),
-                                            child: _frontBuilders[targetIndex](
-                                                context),
-                                          ),
-                                  );
-                                },
+                                        return Transform(
+                                          alignment: Alignment.center,
+                                          transform: Matrix4.identity()
+                                            ..setEntry(
+                                                3, 2, 0.001) // Perspective
+                                            ..rotateY(angle),
+                                          child: isShowingCurrentFront
+                                              ? _frontBuilders[currentIndex](
+                                                  context)
+                                              : Transform(
+                                                  alignment: Alignment.center,
+                                                  transform: Matrix4.identity()
+                                                    ..rotateY(3.14159),
+                                                  child: _frontBuilders[
+                                                      targetIndex](context),
+                                                ),
+                                        );
+                                      },
+                                    );
+                                  },
+                                ),
                               ),
                             ),
                             // Gấu di chuyển animation - hiển thị sau 2s, di chuyển từ phải sang trái

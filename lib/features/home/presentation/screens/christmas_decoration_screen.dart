@@ -271,27 +271,50 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
         // Main content - takes remaining space
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 200),
+            padding: EdgeInsets.symmetric(
+                horizontal: context.getSize(
+                    mobile: 20, desktop: 200, smallDesktop: 150)),
             child: IntrinsicHeight(
               child: Row(
+                spacing: 60,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   // Một tấm thẻ có thể lật được, mỗi lần lật sẽ tạo hiển thị một Content khác nhau
                   // Trước mắt hiển thị một tấm thẻ với nội dung là một lời chúc, sau đó chúng ta sẽ thay đổi sau
                   // FlipGreetingCard với tỷ lệ 16:9, chiều cao lấy maximum của content
-                  const Expanded(
-                    child: Row(
-                      children: [
-                        AspectRatio(
-                          aspectRatio: 9 / 16,
-                          child: FlipGreetingCard(),
-                        ),
-                      ],
-                    ),
+                  const AspectRatio(
+                    aspectRatio: 9 / 16,
+                    child: FlipGreetingCard(),
                   ),
-                  const SizedBox(width: 48),
-
-                  _buildTreeSection(context),
+                  Expanded(
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      return Stack(
+                        children: [
+                          Positioned(
+                            right: 0,
+                            top: context.getSize(
+                                mobile: 20,
+                                desktop: constraints.maxHeight * 0.1,
+                                smallDesktop: constraints.maxHeight * 0.04),
+                            child: _buildTreeSection(context),
+                          ),
+                          Positioned(
+                              left: 0,
+                              right: 90,
+                              bottom: 20,
+                              child: Align(
+                                alignment: Alignment.bottomCenter,
+                                child: _buildCenterSection(context),
+                              )),
+                          Positioned(
+                            left: 0,
+                            bottom: 30,
+                            child: _buildBuibeLeftSection(context),
+                          ),
+                        ],
+                      );
+                    }),
+                  ),
 
                   // Tree section - takes remaining space
                 ],
@@ -359,6 +382,74 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildCenterSection(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      mainAxisAlignment: MainAxisAlignment.end,
+      children: [
+        Container(
+          constraints: BoxConstraints(
+            maxWidth: context.screenWidth * 0.25,
+          ),
+          child: Stack(
+            children: [
+              Image.asset('assets/images/dubu_center.png',
+                  width: double.infinity * 0.65),
+              Positioned(
+                left: 0,
+                right: 0,
+                bottom: 0,
+                child: Container(
+                  width: double.infinity * 0.65,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.3),
+                        blurRadius: 20,
+                        spreadRadius: 5,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(height: context.getSize(mobile: 20, desktop: 40)),
+      ],
+    );
+  }
+
+  Widget _buildBuibeLeftSection(BuildContext context) {
+    return Stack(
+      children: [
+        Image.asset('assets/images/buibe_1.png',
+            width:
+                context.getSize(mobile: 200, desktop: 300, smallDesktop: 200)),
+        Positioned(
+          left: 0,
+          right: 0,
+          bottom: 0,
+          child: Container(
+            width:
+                context.getSize(mobile: 200, desktop: 300, smallDesktop: 200),
+            height: 40,
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.3),
+                  blurRadius: 20,
+                  spreadRadius: 5,
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 
@@ -454,14 +545,6 @@ class _ChristmasDecorationScreenState extends State<ChristmasDecorationScreen>
         padding: EdgeInsets.all(
           context.getSize(mobile: 20, desktop: 32, smallDesktop: 20),
         ),
-        // decoration: BoxDecoration(
-        //   color: Colors.white.withValues(alpha: 0.05),
-        //   borderRadius: BorderRadius.circular(24),
-        //   border: Border.all(
-        //     color: Colors.yellow.withValues(alpha: 0.3),
-        //     width: 2,
-        //   ),
-        // ),
         child: Column(
           children: [
             LightString(

@@ -17,6 +17,7 @@ class HomeState with _$HomeState {
     @Default([]) List<Task> tasks,
     @Default('All') String selectedCategory,
     @Default([]) List<String> features,
+    @Default(0) int greetingCardIndex,
     @Default(Status.idle()) Status statusLoadData,
     @Default(Status.idle()) Status statusRefreshData,
     @Default(Status.idle()) Status statusAddTask,

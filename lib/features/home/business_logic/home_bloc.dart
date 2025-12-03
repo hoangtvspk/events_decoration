@@ -14,6 +14,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<_DeleteTask>(_onDeleteTask);
     on<_ChangeCategory>(_onChangeCategory);
     on<_RefreshData>(_onRefreshData);
+    on<_UpdateGreetingCardIndex>(_onUpdateGreetingCardIndex);
+    on<_FlipGreetingCardForward>(_onFlipGreetingCardForward);
+    on<_FlipGreetingCardBackward>(_onFlipGreetingCardBackward);
+    on<_ResetGreetingCardIndex>(_onResetGreetingCardIndex);
   }
 
   Future<void> _onStarted(_Started event, Emitter<HomeState> emit) async {
@@ -144,6 +148,45 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     await Future.delayed(const Duration(milliseconds: 500));
     emit(state.copyWith(
       statusRefreshData: const Status.idle(),
+    ));
+  }
+
+  void _onUpdateGreetingCardIndex(
+    _UpdateGreetingCardIndex event,
+    Emitter<HomeState> emit,
+  ) {
+    emit(state.copyWith(
+      greetingCardIndex: event.index,
+    ));
+  }
+
+  void _onFlipGreetingCardForward(
+    _FlipGreetingCardForward event,
+    Emitter<HomeState> emit,
+  ) {
+    final newIndex = (state.greetingCardIndex + 1) % event.totalCards;
+    emit(state.copyWith(
+      greetingCardIndex: newIndex,
+    ));
+  }
+
+  void _onFlipGreetingCardBackward(
+    _FlipGreetingCardBackward event,
+    Emitter<HomeState> emit,
+  ) {
+    if (state.greetingCardIndex == 0) return;
+    final newIndex = (state.greetingCardIndex - 1 + event.totalCards) % event.totalCards;
+    emit(state.copyWith(
+      greetingCardIndex: newIndex,
+    ));
+  }
+
+  void _onResetGreetingCardIndex(
+    _ResetGreetingCardIndex event,
+    Emitter<HomeState> emit,
+  ) {
+    emit(state.copyWith(
+      greetingCardIndex: 0,
     ));
   }
 }

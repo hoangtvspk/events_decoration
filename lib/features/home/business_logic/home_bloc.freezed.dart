@@ -24,6 +24,10 @@ mixin _$HomeEvent {
     required TResult Function(String taskId) deleteTask,
     required TResult Function(String category) changeCategory,
     required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -34,6 +38,10 @@ mixin _$HomeEvent {
     TResult? Function(String taskId)? deleteTask,
     TResult? Function(String category)? changeCategory,
     TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -44,6 +52,10 @@ mixin _$HomeEvent {
     TResult Function(String taskId)? deleteTask,
     TResult Function(String category)? changeCategory,
     TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,6 +67,14 @@ mixin _$HomeEvent {
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_ChangeCategory value) changeCategory,
     required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,6 +85,11 @@ mixin _$HomeEvent {
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_ChangeCategory value)? changeCategory,
     TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -75,6 +100,10 @@ mixin _$HomeEvent {
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_ChangeCategory value)? changeCategory,
     TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -147,6 +176,10 @@ class _$StartedImpl implements _Started {
     required TResult Function(String taskId) deleteTask,
     required TResult Function(String category) changeCategory,
     required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
   }) {
     return started();
   }
@@ -160,6 +193,10 @@ class _$StartedImpl implements _Started {
     TResult? Function(String taskId)? deleteTask,
     TResult? Function(String category)? changeCategory,
     TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
   }) {
     return started?.call();
   }
@@ -173,6 +210,10 @@ class _$StartedImpl implements _Started {
     TResult Function(String taskId)? deleteTask,
     TResult Function(String category)? changeCategory,
     TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -190,6 +231,14 @@ class _$StartedImpl implements _Started {
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_ChangeCategory value) changeCategory,
     required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
   }) {
     return started(this);
   }
@@ -203,6 +252,11 @@ class _$StartedImpl implements _Started {
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_ChangeCategory value)? changeCategory,
     TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
   }) {
     return started?.call(this);
   }
@@ -216,6 +270,10 @@ class _$StartedImpl implements _Started {
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_ChangeCategory value)? changeCategory,
     TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -312,6 +370,10 @@ class _$AddTaskImpl implements _AddTask {
     required TResult Function(String taskId) deleteTask,
     required TResult Function(String category) changeCategory,
     required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
   }) {
     return addTask(title, category);
   }
@@ -325,6 +387,10 @@ class _$AddTaskImpl implements _AddTask {
     TResult? Function(String taskId)? deleteTask,
     TResult? Function(String category)? changeCategory,
     TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
   }) {
     return addTask?.call(title, category);
   }
@@ -338,6 +404,10 @@ class _$AddTaskImpl implements _AddTask {
     TResult Function(String taskId)? deleteTask,
     TResult Function(String category)? changeCategory,
     TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -355,6 +425,14 @@ class _$AddTaskImpl implements _AddTask {
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_ChangeCategory value) changeCategory,
     required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
   }) {
     return addTask(this);
   }
@@ -368,6 +446,11 @@ class _$AddTaskImpl implements _AddTask {
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_ChangeCategory value)? changeCategory,
     TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
   }) {
     return addTask?.call(this);
   }
@@ -381,6 +464,10 @@ class _$AddTaskImpl implements _AddTask {
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_ChangeCategory value)? changeCategory,
     TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (addTask != null) {
@@ -481,6 +568,10 @@ class _$ToggleTaskCompletionImpl implements _ToggleTaskCompletion {
     required TResult Function(String taskId) deleteTask,
     required TResult Function(String category) changeCategory,
     required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
   }) {
     return toggleTaskCompletion(taskId);
   }
@@ -494,6 +585,10 @@ class _$ToggleTaskCompletionImpl implements _ToggleTaskCompletion {
     TResult? Function(String taskId)? deleteTask,
     TResult? Function(String category)? changeCategory,
     TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
   }) {
     return toggleTaskCompletion?.call(taskId);
   }
@@ -507,6 +602,10 @@ class _$ToggleTaskCompletionImpl implements _ToggleTaskCompletion {
     TResult Function(String taskId)? deleteTask,
     TResult Function(String category)? changeCategory,
     TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (toggleTaskCompletion != null) {
@@ -524,6 +623,14 @@ class _$ToggleTaskCompletionImpl implements _ToggleTaskCompletion {
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_ChangeCategory value) changeCategory,
     required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
   }) {
     return toggleTaskCompletion(this);
   }
@@ -537,6 +644,11 @@ class _$ToggleTaskCompletionImpl implements _ToggleTaskCompletion {
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_ChangeCategory value)? changeCategory,
     TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
   }) {
     return toggleTaskCompletion?.call(this);
   }
@@ -550,6 +662,10 @@ class _$ToggleTaskCompletionImpl implements _ToggleTaskCompletion {
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_ChangeCategory value)? changeCategory,
     TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (toggleTaskCompletion != null) {
@@ -646,6 +762,10 @@ class _$DeleteTaskImpl implements _DeleteTask {
     required TResult Function(String taskId) deleteTask,
     required TResult Function(String category) changeCategory,
     required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
   }) {
     return deleteTask(taskId);
   }
@@ -659,6 +779,10 @@ class _$DeleteTaskImpl implements _DeleteTask {
     TResult? Function(String taskId)? deleteTask,
     TResult? Function(String category)? changeCategory,
     TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
   }) {
     return deleteTask?.call(taskId);
   }
@@ -672,6 +796,10 @@ class _$DeleteTaskImpl implements _DeleteTask {
     TResult Function(String taskId)? deleteTask,
     TResult Function(String category)? changeCategory,
     TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (deleteTask != null) {
@@ -689,6 +817,14 @@ class _$DeleteTaskImpl implements _DeleteTask {
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_ChangeCategory value) changeCategory,
     required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
   }) {
     return deleteTask(this);
   }
@@ -702,6 +838,11 @@ class _$DeleteTaskImpl implements _DeleteTask {
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_ChangeCategory value)? changeCategory,
     TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
   }) {
     return deleteTask?.call(this);
   }
@@ -715,6 +856,10 @@ class _$DeleteTaskImpl implements _DeleteTask {
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_ChangeCategory value)? changeCategory,
     TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (deleteTask != null) {
@@ -812,6 +957,10 @@ class _$ChangeCategoryImpl implements _ChangeCategory {
     required TResult Function(String taskId) deleteTask,
     required TResult Function(String category) changeCategory,
     required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
   }) {
     return changeCategory(category);
   }
@@ -825,6 +974,10 @@ class _$ChangeCategoryImpl implements _ChangeCategory {
     TResult? Function(String taskId)? deleteTask,
     TResult? Function(String category)? changeCategory,
     TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
   }) {
     return changeCategory?.call(category);
   }
@@ -838,6 +991,10 @@ class _$ChangeCategoryImpl implements _ChangeCategory {
     TResult Function(String taskId)? deleteTask,
     TResult Function(String category)? changeCategory,
     TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (changeCategory != null) {
@@ -855,6 +1012,14 @@ class _$ChangeCategoryImpl implements _ChangeCategory {
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_ChangeCategory value) changeCategory,
     required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
   }) {
     return changeCategory(this);
   }
@@ -868,6 +1033,11 @@ class _$ChangeCategoryImpl implements _ChangeCategory {
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_ChangeCategory value)? changeCategory,
     TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
   }) {
     return changeCategory?.call(this);
   }
@@ -881,6 +1051,10 @@ class _$ChangeCategoryImpl implements _ChangeCategory {
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_ChangeCategory value)? changeCategory,
     TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (changeCategory != null) {
@@ -949,6 +1123,10 @@ class _$RefreshDataImpl implements _RefreshData {
     required TResult Function(String taskId) deleteTask,
     required TResult Function(String category) changeCategory,
     required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
   }) {
     return refreshData();
   }
@@ -962,6 +1140,10 @@ class _$RefreshDataImpl implements _RefreshData {
     TResult? Function(String taskId)? deleteTask,
     TResult? Function(String category)? changeCategory,
     TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
   }) {
     return refreshData?.call();
   }
@@ -975,6 +1157,10 @@ class _$RefreshDataImpl implements _RefreshData {
     TResult Function(String taskId)? deleteTask,
     TResult Function(String category)? changeCategory,
     TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (refreshData != null) {
@@ -992,6 +1178,14 @@ class _$RefreshDataImpl implements _RefreshData {
     required TResult Function(_DeleteTask value) deleteTask,
     required TResult Function(_ChangeCategory value) changeCategory,
     required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
   }) {
     return refreshData(this);
   }
@@ -1005,6 +1199,11 @@ class _$RefreshDataImpl implements _RefreshData {
     TResult? Function(_DeleteTask value)? deleteTask,
     TResult? Function(_ChangeCategory value)? changeCategory,
     TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
   }) {
     return refreshData?.call(this);
   }
@@ -1018,6 +1217,10 @@ class _$RefreshDataImpl implements _RefreshData {
     TResult Function(_DeleteTask value)? deleteTask,
     TResult Function(_ChangeCategory value)? changeCategory,
     TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
     required TResult orElse(),
   }) {
     if (refreshData != null) {
@@ -1029,6 +1232,760 @@ class _$RefreshDataImpl implements _RefreshData {
 
 abstract class _RefreshData implements HomeEvent {
   const factory _RefreshData() = _$RefreshDataImpl;
+}
+
+/// @nodoc
+abstract class _$$UpdateGreetingCardIndexImplCopyWith<$Res> {
+  factory _$$UpdateGreetingCardIndexImplCopyWith(
+          _$UpdateGreetingCardIndexImpl value,
+          $Res Function(_$UpdateGreetingCardIndexImpl) then) =
+      __$$UpdateGreetingCardIndexImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int index});
+}
+
+/// @nodoc
+class __$$UpdateGreetingCardIndexImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$UpdateGreetingCardIndexImpl>
+    implements _$$UpdateGreetingCardIndexImplCopyWith<$Res> {
+  __$$UpdateGreetingCardIndexImplCopyWithImpl(
+      _$UpdateGreetingCardIndexImpl _value,
+      $Res Function(_$UpdateGreetingCardIndexImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? index = null,
+  }) {
+    return _then(_$UpdateGreetingCardIndexImpl(
+      null == index
+          ? _value.index
+          : index // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$UpdateGreetingCardIndexImpl implements _UpdateGreetingCardIndex {
+  const _$UpdateGreetingCardIndexImpl(this.index);
+
+  @override
+  final int index;
+
+  @override
+  String toString() {
+    return 'HomeEvent.updateGreetingCardIndex(index: $index)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$UpdateGreetingCardIndexImpl &&
+            (identical(other.index, index) || other.index == index));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, index);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$UpdateGreetingCardIndexImplCopyWith<_$UpdateGreetingCardIndexImpl>
+      get copyWith => __$$UpdateGreetingCardIndexImplCopyWithImpl<
+          _$UpdateGreetingCardIndexImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String title, String category) addTask,
+    required TResult Function(String taskId) toggleTaskCompletion,
+    required TResult Function(String taskId) deleteTask,
+    required TResult Function(String category) changeCategory,
+    required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
+  }) {
+    return updateGreetingCardIndex(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String title, String category)? addTask,
+    TResult? Function(String taskId)? toggleTaskCompletion,
+    TResult? Function(String taskId)? deleteTask,
+    TResult? Function(String category)? changeCategory,
+    TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
+  }) {
+    return updateGreetingCardIndex?.call(index);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String title, String category)? addTask,
+    TResult Function(String taskId)? toggleTaskCompletion,
+    TResult Function(String taskId)? deleteTask,
+    TResult Function(String category)? changeCategory,
+    TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
+    required TResult orElse(),
+  }) {
+    if (updateGreetingCardIndex != null) {
+      return updateGreetingCardIndex(index);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_AddTask value) addTask,
+    required TResult Function(_ToggleTaskCompletion value) toggleTaskCompletion,
+    required TResult Function(_DeleteTask value) deleteTask,
+    required TResult Function(_ChangeCategory value) changeCategory,
+    required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
+  }) {
+    return updateGreetingCardIndex(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_ToggleTaskCompletion value)? toggleTaskCompletion,
+    TResult? Function(_DeleteTask value)? deleteTask,
+    TResult? Function(_ChangeCategory value)? changeCategory,
+    TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
+  }) {
+    return updateGreetingCardIndex?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_AddTask value)? addTask,
+    TResult Function(_ToggleTaskCompletion value)? toggleTaskCompletion,
+    TResult Function(_DeleteTask value)? deleteTask,
+    TResult Function(_ChangeCategory value)? changeCategory,
+    TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
+    required TResult orElse(),
+  }) {
+    if (updateGreetingCardIndex != null) {
+      return updateGreetingCardIndex(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _UpdateGreetingCardIndex implements HomeEvent {
+  const factory _UpdateGreetingCardIndex(final int index) =
+      _$UpdateGreetingCardIndexImpl;
+
+  int get index;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$UpdateGreetingCardIndexImplCopyWith<_$UpdateGreetingCardIndexImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FlipGreetingCardForwardImplCopyWith<$Res> {
+  factory _$$FlipGreetingCardForwardImplCopyWith(
+          _$FlipGreetingCardForwardImpl value,
+          $Res Function(_$FlipGreetingCardForwardImpl) then) =
+      __$$FlipGreetingCardForwardImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int totalCards});
+}
+
+/// @nodoc
+class __$$FlipGreetingCardForwardImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$FlipGreetingCardForwardImpl>
+    implements _$$FlipGreetingCardForwardImplCopyWith<$Res> {
+  __$$FlipGreetingCardForwardImplCopyWithImpl(
+      _$FlipGreetingCardForwardImpl _value,
+      $Res Function(_$FlipGreetingCardForwardImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? totalCards = null,
+  }) {
+    return _then(_$FlipGreetingCardForwardImpl(
+      null == totalCards
+          ? _value.totalCards
+          : totalCards // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FlipGreetingCardForwardImpl implements _FlipGreetingCardForward {
+  const _$FlipGreetingCardForwardImpl(this.totalCards);
+
+  @override
+  final int totalCards;
+
+  @override
+  String toString() {
+    return 'HomeEvent.flipGreetingCardForward(totalCards: $totalCards)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FlipGreetingCardForwardImpl &&
+            (identical(other.totalCards, totalCards) ||
+                other.totalCards == totalCards));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, totalCards);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FlipGreetingCardForwardImplCopyWith<_$FlipGreetingCardForwardImpl>
+      get copyWith => __$$FlipGreetingCardForwardImplCopyWithImpl<
+          _$FlipGreetingCardForwardImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String title, String category) addTask,
+    required TResult Function(String taskId) toggleTaskCompletion,
+    required TResult Function(String taskId) deleteTask,
+    required TResult Function(String category) changeCategory,
+    required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
+  }) {
+    return flipGreetingCardForward(totalCards);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String title, String category)? addTask,
+    TResult? Function(String taskId)? toggleTaskCompletion,
+    TResult? Function(String taskId)? deleteTask,
+    TResult? Function(String category)? changeCategory,
+    TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
+  }) {
+    return flipGreetingCardForward?.call(totalCards);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String title, String category)? addTask,
+    TResult Function(String taskId)? toggleTaskCompletion,
+    TResult Function(String taskId)? deleteTask,
+    TResult Function(String category)? changeCategory,
+    TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
+    required TResult orElse(),
+  }) {
+    if (flipGreetingCardForward != null) {
+      return flipGreetingCardForward(totalCards);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_AddTask value) addTask,
+    required TResult Function(_ToggleTaskCompletion value) toggleTaskCompletion,
+    required TResult Function(_DeleteTask value) deleteTask,
+    required TResult Function(_ChangeCategory value) changeCategory,
+    required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
+  }) {
+    return flipGreetingCardForward(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_ToggleTaskCompletion value)? toggleTaskCompletion,
+    TResult? Function(_DeleteTask value)? deleteTask,
+    TResult? Function(_ChangeCategory value)? changeCategory,
+    TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
+  }) {
+    return flipGreetingCardForward?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_AddTask value)? addTask,
+    TResult Function(_ToggleTaskCompletion value)? toggleTaskCompletion,
+    TResult Function(_DeleteTask value)? deleteTask,
+    TResult Function(_ChangeCategory value)? changeCategory,
+    TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
+    required TResult orElse(),
+  }) {
+    if (flipGreetingCardForward != null) {
+      return flipGreetingCardForward(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FlipGreetingCardForward implements HomeEvent {
+  const factory _FlipGreetingCardForward(final int totalCards) =
+      _$FlipGreetingCardForwardImpl;
+
+  int get totalCards;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FlipGreetingCardForwardImplCopyWith<_$FlipGreetingCardForwardImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$FlipGreetingCardBackwardImplCopyWith<$Res> {
+  factory _$$FlipGreetingCardBackwardImplCopyWith(
+          _$FlipGreetingCardBackwardImpl value,
+          $Res Function(_$FlipGreetingCardBackwardImpl) then) =
+      __$$FlipGreetingCardBackwardImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int totalCards});
+}
+
+/// @nodoc
+class __$$FlipGreetingCardBackwardImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$FlipGreetingCardBackwardImpl>
+    implements _$$FlipGreetingCardBackwardImplCopyWith<$Res> {
+  __$$FlipGreetingCardBackwardImplCopyWithImpl(
+      _$FlipGreetingCardBackwardImpl _value,
+      $Res Function(_$FlipGreetingCardBackwardImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? totalCards = null,
+  }) {
+    return _then(_$FlipGreetingCardBackwardImpl(
+      null == totalCards
+          ? _value.totalCards
+          : totalCards // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$FlipGreetingCardBackwardImpl implements _FlipGreetingCardBackward {
+  const _$FlipGreetingCardBackwardImpl(this.totalCards);
+
+  @override
+  final int totalCards;
+
+  @override
+  String toString() {
+    return 'HomeEvent.flipGreetingCardBackward(totalCards: $totalCards)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$FlipGreetingCardBackwardImpl &&
+            (identical(other.totalCards, totalCards) ||
+                other.totalCards == totalCards));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, totalCards);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$FlipGreetingCardBackwardImplCopyWith<_$FlipGreetingCardBackwardImpl>
+      get copyWith => __$$FlipGreetingCardBackwardImplCopyWithImpl<
+          _$FlipGreetingCardBackwardImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String title, String category) addTask,
+    required TResult Function(String taskId) toggleTaskCompletion,
+    required TResult Function(String taskId) deleteTask,
+    required TResult Function(String category) changeCategory,
+    required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
+  }) {
+    return flipGreetingCardBackward(totalCards);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String title, String category)? addTask,
+    TResult? Function(String taskId)? toggleTaskCompletion,
+    TResult? Function(String taskId)? deleteTask,
+    TResult? Function(String category)? changeCategory,
+    TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
+  }) {
+    return flipGreetingCardBackward?.call(totalCards);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String title, String category)? addTask,
+    TResult Function(String taskId)? toggleTaskCompletion,
+    TResult Function(String taskId)? deleteTask,
+    TResult Function(String category)? changeCategory,
+    TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
+    required TResult orElse(),
+  }) {
+    if (flipGreetingCardBackward != null) {
+      return flipGreetingCardBackward(totalCards);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_AddTask value) addTask,
+    required TResult Function(_ToggleTaskCompletion value) toggleTaskCompletion,
+    required TResult Function(_DeleteTask value) deleteTask,
+    required TResult Function(_ChangeCategory value) changeCategory,
+    required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
+  }) {
+    return flipGreetingCardBackward(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_ToggleTaskCompletion value)? toggleTaskCompletion,
+    TResult? Function(_DeleteTask value)? deleteTask,
+    TResult? Function(_ChangeCategory value)? changeCategory,
+    TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
+  }) {
+    return flipGreetingCardBackward?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_AddTask value)? addTask,
+    TResult Function(_ToggleTaskCompletion value)? toggleTaskCompletion,
+    TResult Function(_DeleteTask value)? deleteTask,
+    TResult Function(_ChangeCategory value)? changeCategory,
+    TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
+    required TResult orElse(),
+  }) {
+    if (flipGreetingCardBackward != null) {
+      return flipGreetingCardBackward(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FlipGreetingCardBackward implements HomeEvent {
+  const factory _FlipGreetingCardBackward(final int totalCards) =
+      _$FlipGreetingCardBackwardImpl;
+
+  int get totalCards;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$FlipGreetingCardBackwardImplCopyWith<_$FlipGreetingCardBackwardImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ResetGreetingCardIndexImplCopyWith<$Res> {
+  factory _$$ResetGreetingCardIndexImplCopyWith(
+          _$ResetGreetingCardIndexImpl value,
+          $Res Function(_$ResetGreetingCardIndexImpl) then) =
+      __$$ResetGreetingCardIndexImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$ResetGreetingCardIndexImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$ResetGreetingCardIndexImpl>
+    implements _$$ResetGreetingCardIndexImplCopyWith<$Res> {
+  __$$ResetGreetingCardIndexImplCopyWithImpl(
+      _$ResetGreetingCardIndexImpl _value,
+      $Res Function(_$ResetGreetingCardIndexImpl) _then)
+      : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$ResetGreetingCardIndexImpl implements _ResetGreetingCardIndex {
+  const _$ResetGreetingCardIndexImpl();
+
+  @override
+  String toString() {
+    return 'HomeEvent.resetGreetingCardIndex()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ResetGreetingCardIndexImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String title, String category) addTask,
+    required TResult Function(String taskId) toggleTaskCompletion,
+    required TResult Function(String taskId) deleteTask,
+    required TResult Function(String category) changeCategory,
+    required TResult Function() refreshData,
+    required TResult Function(int index) updateGreetingCardIndex,
+    required TResult Function(int totalCards) flipGreetingCardForward,
+    required TResult Function(int totalCards) flipGreetingCardBackward,
+    required TResult Function() resetGreetingCardIndex,
+  }) {
+    return resetGreetingCardIndex();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String title, String category)? addTask,
+    TResult? Function(String taskId)? toggleTaskCompletion,
+    TResult? Function(String taskId)? deleteTask,
+    TResult? Function(String category)? changeCategory,
+    TResult? Function()? refreshData,
+    TResult? Function(int index)? updateGreetingCardIndex,
+    TResult? Function(int totalCards)? flipGreetingCardForward,
+    TResult? Function(int totalCards)? flipGreetingCardBackward,
+    TResult? Function()? resetGreetingCardIndex,
+  }) {
+    return resetGreetingCardIndex?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String title, String category)? addTask,
+    TResult Function(String taskId)? toggleTaskCompletion,
+    TResult Function(String taskId)? deleteTask,
+    TResult Function(String category)? changeCategory,
+    TResult Function()? refreshData,
+    TResult Function(int index)? updateGreetingCardIndex,
+    TResult Function(int totalCards)? flipGreetingCardForward,
+    TResult Function(int totalCards)? flipGreetingCardBackward,
+    TResult Function()? resetGreetingCardIndex,
+    required TResult orElse(),
+  }) {
+    if (resetGreetingCardIndex != null) {
+      return resetGreetingCardIndex();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_AddTask value) addTask,
+    required TResult Function(_ToggleTaskCompletion value) toggleTaskCompletion,
+    required TResult Function(_DeleteTask value) deleteTask,
+    required TResult Function(_ChangeCategory value) changeCategory,
+    required TResult Function(_RefreshData value) refreshData,
+    required TResult Function(_UpdateGreetingCardIndex value)
+        updateGreetingCardIndex,
+    required TResult Function(_FlipGreetingCardForward value)
+        flipGreetingCardForward,
+    required TResult Function(_FlipGreetingCardBackward value)
+        flipGreetingCardBackward,
+    required TResult Function(_ResetGreetingCardIndex value)
+        resetGreetingCardIndex,
+  }) {
+    return resetGreetingCardIndex(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_AddTask value)? addTask,
+    TResult? Function(_ToggleTaskCompletion value)? toggleTaskCompletion,
+    TResult? Function(_DeleteTask value)? deleteTask,
+    TResult? Function(_ChangeCategory value)? changeCategory,
+    TResult? Function(_RefreshData value)? refreshData,
+    TResult? Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult? Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult? Function(_FlipGreetingCardBackward value)?
+        flipGreetingCardBackward,
+    TResult? Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
+  }) {
+    return resetGreetingCardIndex?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_AddTask value)? addTask,
+    TResult Function(_ToggleTaskCompletion value)? toggleTaskCompletion,
+    TResult Function(_DeleteTask value)? deleteTask,
+    TResult Function(_ChangeCategory value)? changeCategory,
+    TResult Function(_RefreshData value)? refreshData,
+    TResult Function(_UpdateGreetingCardIndex value)? updateGreetingCardIndex,
+    TResult Function(_FlipGreetingCardForward value)? flipGreetingCardForward,
+    TResult Function(_FlipGreetingCardBackward value)? flipGreetingCardBackward,
+    TResult Function(_ResetGreetingCardIndex value)? resetGreetingCardIndex,
+    required TResult orElse(),
+  }) {
+    if (resetGreetingCardIndex != null) {
+      return resetGreetingCardIndex(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ResetGreetingCardIndex implements HomeEvent {
+  const factory _ResetGreetingCardIndex() = _$ResetGreetingCardIndexImpl;
 }
 
 /// @nodoc
@@ -1249,6 +2206,7 @@ mixin _$HomeState {
   List<Task> get tasks => throw _privateConstructorUsedError;
   String get selectedCategory => throw _privateConstructorUsedError;
   List<String> get features => throw _privateConstructorUsedError;
+  int get greetingCardIndex => throw _privateConstructorUsedError;
   Status get statusLoadData => throw _privateConstructorUsedError;
   Status get statusRefreshData => throw _privateConstructorUsedError;
   Status get statusAddTask => throw _privateConstructorUsedError;
@@ -1269,6 +2227,7 @@ abstract class $HomeStateCopyWith<$Res> {
       {List<Task> tasks,
       String selectedCategory,
       List<String> features,
+      int greetingCardIndex,
       Status statusLoadData,
       Status statusRefreshData,
       Status statusAddTask});
@@ -1296,6 +2255,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? tasks = null,
     Object? selectedCategory = null,
     Object? features = null,
+    Object? greetingCardIndex = null,
     Object? statusLoadData = null,
     Object? statusRefreshData = null,
     Object? statusAddTask = null,
@@ -1313,6 +2273,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
           ? _value.features
           : features // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      greetingCardIndex: null == greetingCardIndex
+          ? _value.greetingCardIndex
+          : greetingCardIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       statusLoadData: null == statusLoadData
           ? _value.statusLoadData
           : statusLoadData // ignore: cast_nullable_to_non_nullable
@@ -1371,6 +2335,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       {List<Task> tasks,
       String selectedCategory,
       List<String> features,
+      int greetingCardIndex,
       Status statusLoadData,
       Status statusRefreshData,
       Status statusAddTask});
@@ -1399,6 +2364,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? tasks = null,
     Object? selectedCategory = null,
     Object? features = null,
+    Object? greetingCardIndex = null,
     Object? statusLoadData = null,
     Object? statusRefreshData = null,
     Object? statusAddTask = null,
@@ -1416,6 +2382,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
           ? _value._features
           : features // ignore: cast_nullable_to_non_nullable
               as List<String>,
+      greetingCardIndex: null == greetingCardIndex
+          ? _value.greetingCardIndex
+          : greetingCardIndex // ignore: cast_nullable_to_non_nullable
+              as int,
       statusLoadData: null == statusLoadData
           ? _value.statusLoadData
           : statusLoadData // ignore: cast_nullable_to_non_nullable
@@ -1439,6 +2409,7 @@ class _$HomeStateImpl implements _HomeState {
       {final List<Task> tasks = const [],
       this.selectedCategory = 'All',
       final List<String> features = const [],
+      this.greetingCardIndex = 0,
       this.statusLoadData = const Status.idle(),
       this.statusRefreshData = const Status.idle(),
       this.statusAddTask = const Status.idle()})
@@ -1468,6 +2439,9 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   @JsonKey()
+  final int greetingCardIndex;
+  @override
+  @JsonKey()
   final Status statusLoadData;
   @override
   @JsonKey()
@@ -1478,7 +2452,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(tasks: $tasks, selectedCategory: $selectedCategory, features: $features, statusLoadData: $statusLoadData, statusRefreshData: $statusRefreshData, statusAddTask: $statusAddTask)';
+    return 'HomeState(tasks: $tasks, selectedCategory: $selectedCategory, features: $features, greetingCardIndex: $greetingCardIndex, statusLoadData: $statusLoadData, statusRefreshData: $statusRefreshData, statusAddTask: $statusAddTask)';
   }
 
   @override
@@ -1490,6 +2464,8 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.selectedCategory, selectedCategory) ||
                 other.selectedCategory == selectedCategory) &&
             const DeepCollectionEquality().equals(other._features, _features) &&
+            (identical(other.greetingCardIndex, greetingCardIndex) ||
+                other.greetingCardIndex == greetingCardIndex) &&
             (identical(other.statusLoadData, statusLoadData) ||
                 other.statusLoadData == statusLoadData) &&
             (identical(other.statusRefreshData, statusRefreshData) ||
@@ -1504,6 +2480,7 @@ class _$HomeStateImpl implements _HomeState {
       const DeepCollectionEquality().hash(_tasks),
       selectedCategory,
       const DeepCollectionEquality().hash(_features),
+      greetingCardIndex,
       statusLoadData,
       statusRefreshData,
       statusAddTask);
@@ -1522,6 +2499,7 @@ abstract class _HomeState implements HomeState {
       {final List<Task> tasks,
       final String selectedCategory,
       final List<String> features,
+      final int greetingCardIndex,
       final Status statusLoadData,
       final Status statusRefreshData,
       final Status statusAddTask}) = _$HomeStateImpl;
@@ -1532,6 +2510,8 @@ abstract class _HomeState implements HomeState {
   String get selectedCategory;
   @override
   List<String> get features;
+  @override
+  int get greetingCardIndex;
   @override
   Status get statusLoadData;
   @override
