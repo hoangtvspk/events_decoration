@@ -37,7 +37,7 @@ class Front1 extends StatelessWidget {
               Container(
                 decoration: const BoxDecoration(
                   image: DecorationImage(
-                    image: AssetImage('assets/images/embe_2.jpg'),
+                    image: AssetImage('assets/images/embe_2.jpeg'),
                     fit: BoxFit.cover,
                   ),
                 ),
