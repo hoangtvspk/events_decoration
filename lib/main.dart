@@ -10,6 +10,7 @@ import 'core/l10n/app_localizations.dart';
 import 'core/provider/language/language_bloc.dart';
 import 'package:flutter_web_plugins/url_strategy.dart';
 import 'core/router/app_router.dart';
+import 'core/services/audio_service.dart';
 
 void main() async {
   WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
@@ -28,17 +29,48 @@ void main() async {
   runApp(MyApp(prefs: prefs));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   final SharedPreferences prefs;
 
   const MyApp({super.key, required this.prefs});
+
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  // URL nhạc nền - thay đổi URL này thành URL MP3 của bạn
+  //
+  // Hỗ trợ 2 loại URL:
+  // 1. Direct URL: 'https://example.com/music/background.mp3'
+  // 2. Google Drive link: 'https://drive.google.com/file/d/FILE_ID/view?usp=sharing'
+  //    (Service sẽ tự động chuyển đổi thành direct link)
+  //
+  // Cách lấy Google Drive link:
+  // - Upload file MP3 lên Google Drive
+  // - Right click → "Get link" → Chọn "Anyone with the link"
+  // - Copy link và paste vào đây
+  static const String backgroundMusicUrl =
+      ''; // TODO: Thêm URL nhạc của bạn ở đây
+
+  @override
+  void initState() {
+    super.initState();
+    // Phát nhạc tự động khi app khởi động
+    if (backgroundMusicUrl.isNotEmpty) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        AudioService().playMusic(backgroundMusicUrl);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) {
-            return LanguageBloc(prefs)..add(const LanguageEvent.loadLanguage());
+            return LanguageBloc(widget.prefs)
+              ..add(const LanguageEvent.loadLanguage());
           }),
         ],
         child: BlocBuilder<LanguageBloc, LanguageState>(
@@ -62,5 +94,12 @@ class MyApp extends StatelessWidget {
             );
           },
         ));
+  }
+
+  @override
+  void dispose() {
+    // Cleanup audio service khi app đóng
+    AudioService().dispose();
+    super.dispose();
   }
 }

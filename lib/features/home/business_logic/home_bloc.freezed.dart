@@ -2207,6 +2207,8 @@ mixin _$HomeState {
   String get selectedCategory => throw _privateConstructorUsedError;
   List<String> get features => throw _privateConstructorUsedError;
   int get greetingCardIndex => throw _privateConstructorUsedError;
+  int get maxReachedCardIndex =>
+      throw _privateConstructorUsedError; // Track card index cao nhất đã đạt được (chỉ tăng, không giảm)
   Status get statusLoadData => throw _privateConstructorUsedError;
   Status get statusRefreshData => throw _privateConstructorUsedError;
   Status get statusAddTask => throw _privateConstructorUsedError;
@@ -2228,6 +2230,7 @@ abstract class $HomeStateCopyWith<$Res> {
       String selectedCategory,
       List<String> features,
       int greetingCardIndex,
+      int maxReachedCardIndex,
       Status statusLoadData,
       Status statusRefreshData,
       Status statusAddTask});
@@ -2256,6 +2259,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? selectedCategory = null,
     Object? features = null,
     Object? greetingCardIndex = null,
+    Object? maxReachedCardIndex = null,
     Object? statusLoadData = null,
     Object? statusRefreshData = null,
     Object? statusAddTask = null,
@@ -2276,6 +2280,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
       greetingCardIndex: null == greetingCardIndex
           ? _value.greetingCardIndex
           : greetingCardIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxReachedCardIndex: null == maxReachedCardIndex
+          ? _value.maxReachedCardIndex
+          : maxReachedCardIndex // ignore: cast_nullable_to_non_nullable
               as int,
       statusLoadData: null == statusLoadData
           ? _value.statusLoadData
@@ -2336,6 +2344,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
       String selectedCategory,
       List<String> features,
       int greetingCardIndex,
+      int maxReachedCardIndex,
       Status statusLoadData,
       Status statusRefreshData,
       Status statusAddTask});
@@ -2365,6 +2374,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? selectedCategory = null,
     Object? features = null,
     Object? greetingCardIndex = null,
+    Object? maxReachedCardIndex = null,
     Object? statusLoadData = null,
     Object? statusRefreshData = null,
     Object? statusAddTask = null,
@@ -2385,6 +2395,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
       greetingCardIndex: null == greetingCardIndex
           ? _value.greetingCardIndex
           : greetingCardIndex // ignore: cast_nullable_to_non_nullable
+              as int,
+      maxReachedCardIndex: null == maxReachedCardIndex
+          ? _value.maxReachedCardIndex
+          : maxReachedCardIndex // ignore: cast_nullable_to_non_nullable
               as int,
       statusLoadData: null == statusLoadData
           ? _value.statusLoadData
@@ -2410,6 +2424,7 @@ class _$HomeStateImpl implements _HomeState {
       this.selectedCategory = 'All',
       final List<String> features = const [],
       this.greetingCardIndex = 0,
+      this.maxReachedCardIndex = 0,
       this.statusLoadData = const Status.idle(),
       this.statusRefreshData = const Status.idle(),
       this.statusAddTask = const Status.idle()})
@@ -2442,6 +2457,10 @@ class _$HomeStateImpl implements _HomeState {
   final int greetingCardIndex;
   @override
   @JsonKey()
+  final int maxReachedCardIndex;
+// Track card index cao nhất đã đạt được (chỉ tăng, không giảm)
+  @override
+  @JsonKey()
   final Status statusLoadData;
   @override
   @JsonKey()
@@ -2452,7 +2471,7 @@ class _$HomeStateImpl implements _HomeState {
 
   @override
   String toString() {
-    return 'HomeState(tasks: $tasks, selectedCategory: $selectedCategory, features: $features, greetingCardIndex: $greetingCardIndex, statusLoadData: $statusLoadData, statusRefreshData: $statusRefreshData, statusAddTask: $statusAddTask)';
+    return 'HomeState(tasks: $tasks, selectedCategory: $selectedCategory, features: $features, greetingCardIndex: $greetingCardIndex, maxReachedCardIndex: $maxReachedCardIndex, statusLoadData: $statusLoadData, statusRefreshData: $statusRefreshData, statusAddTask: $statusAddTask)';
   }
 
   @override
@@ -2466,6 +2485,8 @@ class _$HomeStateImpl implements _HomeState {
             const DeepCollectionEquality().equals(other._features, _features) &&
             (identical(other.greetingCardIndex, greetingCardIndex) ||
                 other.greetingCardIndex == greetingCardIndex) &&
+            (identical(other.maxReachedCardIndex, maxReachedCardIndex) ||
+                other.maxReachedCardIndex == maxReachedCardIndex) &&
             (identical(other.statusLoadData, statusLoadData) ||
                 other.statusLoadData == statusLoadData) &&
             (identical(other.statusRefreshData, statusRefreshData) ||
@@ -2481,6 +2502,7 @@ class _$HomeStateImpl implements _HomeState {
       selectedCategory,
       const DeepCollectionEquality().hash(_features),
       greetingCardIndex,
+      maxReachedCardIndex,
       statusLoadData,
       statusRefreshData,
       statusAddTask);
@@ -2500,6 +2522,7 @@ abstract class _HomeState implements HomeState {
       final String selectedCategory,
       final List<String> features,
       final int greetingCardIndex,
+      final int maxReachedCardIndex,
       final Status statusLoadData,
       final Status statusRefreshData,
       final Status statusAddTask}) = _$HomeStateImpl;
@@ -2512,6 +2535,8 @@ abstract class _HomeState implements HomeState {
   List<String> get features;
   @override
   int get greetingCardIndex;
+  @override
+  int get maxReachedCardIndex; // Track card index cao nhất đã đạt được (chỉ tăng, không giảm)
   @override
   Status get statusLoadData;
   @override

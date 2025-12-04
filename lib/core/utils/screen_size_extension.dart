@@ -19,6 +19,12 @@ extension ScreenSizeExtension on BuildContext {
   bool get isDesktop => screenWidth >= 1024;
 
   /// Kiểm tra xem có phải small desktop không (desktop nhưng height < 800px)
+  bool get isMediumDesktop =>
+      isDesktop &&
+      ((screenHeight < 1100 && screenHeight > 800) ||
+          (screenWidth > 1550 && screenWidth < 2000));
+
+  /// Kiểm tra xem có phải small desktop không (desktop nhưng height < 800px)
   bool get isSmallDesktop =>
       isDesktop && (screenHeight < 800 || screenWidth < 1550);
 
@@ -39,6 +45,7 @@ extension ScreenSizeExtension on BuildContext {
     double? tablet,
     double? desktop,
     double? smallDesktop,
+    double? mediumDesktop,
   }) {
     if (isMobile) {
       return mobile;
@@ -51,6 +58,10 @@ extension ScreenSizeExtension on BuildContext {
     // Desktop
     if (isSmallDesktop && smallDesktop != null) {
       return smallDesktop;
+    }
+
+    if (isMediumDesktop && mediumDesktop != null) {
+      return mediumDesktop;
     }
 
     return desktop ?? tablet ?? mobile;

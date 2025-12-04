@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bui_bloc/core/utils/screen_size_extension.dart';
+import 'animated_card_front_text.dart';
+import 'card_front_text.dart';
+import '../../../business_logic/home_bloc.dart';
 
 class Front3 extends StatelessWidget {
   const Front3({super.key});
@@ -53,7 +56,10 @@ class Front3 extends StatelessWidget {
                               Icon(
                                 Icons.star,
                                 size: context.getSize(
-                                    mobile: 30, desktop: 60, smallDesktop: 30),
+                                    mobile: 30,
+                                    desktop: 60,
+                                    mediumDesktop: 40,
+                                    smallDesktop: 30),
                                 color: Colors.white,
                                 shadows: [
                                   Shadow(
@@ -67,33 +73,28 @@ class Front3 extends StatelessWidget {
                                   height: context.getSize(
                                       mobile: 10,
                                       desktop: 20,
+                                      mediumDesktop: 12,
                                       smallDesktop: 10)),
-                              Text(
-                                'Chúc em bé một mùa giáng sinh với trái tim được sưởi ấm, có gia đình, có mọi thứ, và có anh! ❤️',
-                                style: GoogleFonts.openSans(
-                                  fontSize: context.getSize(
-                                      mobile: 18,
-                                      desktop: 20,
-                                      smallDesktop: 18),
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                  height: 1.4,
-                                  shadows: [
-                                    Shadow(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.7),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                    Shadow(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.5),
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 1),
-                                    ),
-                                  ],
-                                ),
-                                textAlign: TextAlign.center,
+                              BlocBuilder<HomeBloc, HomeState>(
+                                builder: (context, state) {
+                                  const text =
+                                      'Chúc em bé một mùa Noel cùng với trái tim được sưởi ấm, bên cạnh luôn có người thân thương, có gia đình, có bạn bè, và có anh!';
+                                  // Khi maxReachedCardIndex > frontIndex (đã từng lật qua thẻ tiếp theo),
+                                  // đổi vĩnh viễn sang CardFrontText
+                                  // maxReachedCardIndex chỉ tăng, không bao giờ giảm
+                                  if (state.maxReachedCardIndex > 2) {
+                                    return const CardFrontText(
+                                      text: text,
+                                    );
+                                  }
+                                  return AnimatedCardFrontText(
+                                    key: const ValueKey('front3'),
+                                    text: text,
+                                    cardIndex: state.greetingCardIndex,
+                                    frontIndex:
+                                        2, // Front3 tương ứng với index 2
+                                  );
+                                },
                               ),
                             ],
                           )),

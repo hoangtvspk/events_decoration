@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bui_bloc/core/utils/screen_size_extension.dart';
+import 'animated_card_front_text.dart';
+import 'card_front_text.dart';
+import '../../../business_logic/home_bloc.dart';
 
 class Front4 extends StatelessWidget {
   const Front4({super.key});
@@ -53,7 +56,10 @@ class Front4 extends StatelessWidget {
                               Icon(
                                 Icons.auto_awesome,
                                 size: context.getSize(
-                                    mobile: 30, desktop: 60, smallDesktop: 30),
+                                    mobile: 30,
+                                    desktop: 60,
+                                    mediumDesktop: 40,
+                                    smallDesktop: 30),
                                 color: Colors.white,
                                 shadows: [
                                   Shadow(
@@ -67,33 +73,28 @@ class Front4 extends StatelessWidget {
                                   height: context.getSize(
                                       mobile: 10,
                                       desktop: 20,
+                                      mediumDesktop: 12,
                                       smallDesktop: 10)),
-                              Text(
-                                'Mọi nỗ lực rồi sẽ được gặt hái thành quả, hãy cứ tiếp tục làm thật tốt, chặng đường tuy còn dài nhưng có anh bước tiếp cùng em 🍀',
-                                style: GoogleFonts.openSans(
-                                  fontSize: context.getSize(
-                                      mobile: 18,
-                                      desktop: 20,
-                                      smallDesktop: 18),
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.white,
-                                  height: 1.4,
-                                  shadows: [
-                                    Shadow(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.7),
-                                      blurRadius: 8,
-                                      offset: const Offset(0, 2),
-                                    ),
-                                    Shadow(
-                                      color:
-                                          Colors.black.withValues(alpha: 0.5),
-                                      blurRadius: 4,
-                                      offset: const Offset(0, 1),
-                                    ),
-                                  ],
-                                ),
-                                textAlign: TextAlign.center,
+                              BlocBuilder<HomeBloc, HomeState>(
+                                builder: (context, state) {
+                                  const text =
+                                      'Tỏa sáng như ánh đèn Giáng sinh, em luôn khiến anh cảm thấy tự hào khi nghĩ về, em luôn xinh đẹp, giỏi giang, lại biết cách quan tâm, tử tế với tất cả 🌼';
+                                  // Khi maxReachedCardIndex > frontIndex (đã từng lật qua thẻ tiếp theo),
+                                  // đổi vĩnh viễn sang CardFrontText
+                                  // maxReachedCardIndex chỉ tăng, không bao giờ giảm
+                                  if (state.maxReachedCardIndex > 3) {
+                                    return const CardFrontText(
+                                      text: text,
+                                    );
+                                  }
+                                  return AnimatedCardFrontText(
+                                    key: const ValueKey('front4'),
+                                    text: text,
+                                    cardIndex: state.greetingCardIndex,
+                                    frontIndex:
+                                        3, // Front4 tương ứng với index 3
+                                  );
+                                },
                               ),
                             ],
                           )),

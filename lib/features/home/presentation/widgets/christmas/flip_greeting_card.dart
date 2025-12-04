@@ -7,6 +7,7 @@ import '../card_fronts/front_2.dart';
 import '../card_fronts/front_3.dart';
 import '../card_fronts/front_4.dart';
 import '../card_fronts/front_5.dart';
+import '../card_fronts/front_6.dart';
 
 class FlipGreetingCard extends StatefulWidget {
   const FlipGreetingCard({super.key});
@@ -39,6 +40,7 @@ class _FlipGreetingCardState extends State<FlipGreetingCard>
     (context) => const Front3(),
     (context) => const Front4(),
     (context) => const Front5(),
+    (context) => const Front6(),
   ];
 
   @override

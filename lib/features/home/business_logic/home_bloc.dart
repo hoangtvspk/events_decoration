@@ -165,8 +165,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     Emitter<HomeState> emit,
   ) {
     final newIndex = (state.greetingCardIndex + 1) % event.totalCards;
+    // Update maxReachedCardIndex nếu newIndex > maxReachedCardIndex
+    // Đảm bảo maxReachedCardIndex chỉ tăng, không bao giờ giảm
+    final newMaxReached = newIndex > state.maxReachedCardIndex
+        ? newIndex
+        : state.maxReachedCardIndex;
     emit(state.copyWith(
       greetingCardIndex: newIndex,
+      maxReachedCardIndex: newMaxReached,
     ));
   }
 

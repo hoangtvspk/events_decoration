@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:bui_bloc/core/utils/screen_size_extension.dart';
+import 'animated_card_front_text.dart';
+import 'card_front_text.dart';
+import '../../../business_logic/home_bloc.dart';
 
 class Front2 extends StatelessWidget {
   const Front2({super.key});
@@ -29,9 +32,9 @@ class Front2 extends StatelessWidget {
                       end: Alignment.bottomCenter,
                       colors: [
                         const Color.fromARGB(255, 79, 92, 98)
-                            .withValues(alpha: 0.8),
+                            .withValues(alpha: 0.9),
                         const Color.fromARGB(255, 79, 92, 98)
-                            .withValues(alpha: 0.2),
+                            .withValues(alpha: 0.6),
                         Colors.transparent,
                       ],
                       stops: const [0.0, 0.3, 1.0],
@@ -57,6 +60,7 @@ class Front2 extends StatelessWidget {
                                   size: context.getSize(
                                       mobile: 30,
                                       desktop: 60,
+                                      mediumDesktop: 40,
                                       smallDesktop: 30),
                                   color: Colors.white,
                                   shadows: [
@@ -72,33 +76,30 @@ class Front2 extends StatelessWidget {
                                     height: context.getSize(
                                         mobile: 10,
                                         desktop: 20,
+                                        mediumDesktop: 12,
                                         smallDesktop: 10)),
-                                Text(
-                                  'Giáng sinh an lành, em bé!\nMong mọi thứ xoay quanh em luôn là những điều đáng yêu, và chính em là điều đáng yêu nhất! 🥰',
-                                  style: GoogleFonts.inter(
-                                    fontSize: context.getSize(
-                                        mobile: 18,
-                                        desktop: 20,
-                                        smallDesktop: 18),
-                                    fontWeight: FontWeight.w500,
-                                    color: Colors.white,
-                                    height: 1.4,
-                                    shadows: [
-                                      Shadow(
-                                        color:
-                                            Colors.black.withValues(alpha: 0.7),
-                                        blurRadius: 8,
-                                        offset: const Offset(0, 2),
-                                      ),
-                                      Shadow(
-                                        color:
-                                            Colors.black.withValues(alpha: 0.5),
-                                        blurRadius: 4,
-                                        offset: const Offset(0, 1),
-                                      ),
-                                    ],
-                                  ),
-                                  textAlign: TextAlign.center,
+                                BlocBuilder<HomeBloc, HomeState>(
+                                  builder: (context, state) {
+                                    const text =
+                                        'Giáng sinh an lành, em bé!\nMong cho mọi điều dịu dàng nhất sẽ tới với em, và cô gái của anh sẽ luôn được hạnh phúc và yên bình!';
+                                    // Khi maxReachedCardIndex > frontIndex (đã từng lật qua thẻ tiếp theo),
+                                    // đổi vĩnh viễn sang CardFrontText
+                                    // maxReachedCardIndex chỉ tăng, không bao giờ giảm
+                                    if (state.maxReachedCardIndex > 1) {
+                                      return const CardFrontText(
+                                        text: text,
+                                      );
+                                    }
+                                    return AnimatedCardFrontText(
+                                      key: const ValueKey('front2'),
+                                      duration:
+                                          const Duration(milliseconds: 4000),
+                                      text: text,
+                                      cardIndex: state.greetingCardIndex,
+                                      frontIndex:
+                                          1, // Front2 tương ứng với index 1
+                                    );
+                                  },
                                 ),
                               ],
                             )),

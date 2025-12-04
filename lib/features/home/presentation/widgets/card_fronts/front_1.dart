@@ -50,11 +50,11 @@ class Front1 extends StatelessWidget {
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
                       colors: [
-                        Colors.black.withValues(alpha: 0.8),
-                        Colors.black.withValues(alpha: 0.2),
+                        Colors.black.withValues(alpha: 0.9),
+                        Colors.black.withValues(alpha: 0.4),
                         Colors.transparent,
                       ],
-                      stops: const [0.0, 0.3, 1.0],
+                      stops: const [0.0, 0.5, 1.0],
                     ),
                   ),
                 ),
@@ -92,7 +92,7 @@ class Front1 extends StatelessWidget {
                         height: context.getSize(
                             mobile: 10, desktop: 15, smallDesktop: 10)),
                     // Text với shadow
-                    AppText(
+                    Text(
                       'Merry Christmas',
                       style: GoogleFonts.playfairDisplay(
                         fontSize: context.getSize(
@@ -115,6 +115,121 @@ class Front1 extends StatelessWidget {
                       ),
                       textAlign: TextAlign.center,
                     ),
+                    SizedBox(
+                        height: context.getSize(
+                            mobile: 10, desktop: 15, smallDesktop: 10)),
+                    // Text với shadow
+                    Text(
+                      'from',
+                      style: GoogleFonts.notoSans(
+                        fontSize: context.getSize(
+                            mobile: 9, desktop: 11, smallDesktop: 9),
+                        color: Colors.white,
+                        letterSpacing: 2,
+                        fontStyle: FontStyle.italic,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withValues(alpha: 0.7),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                          Shadow(
+                            color: Colors.black.withValues(alpha: 0.5),
+                            blurRadius: 4,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                        height: context.getSize(
+                            mobile: 5, desktop: 10, smallDesktop: 5)),
+                    // Text với shadow
+                    Text(
+                      'Bụi',
+                      style: TextStyle(
+                        fontFamily: 'Excalifont',
+                        fontSize: context.getSize(
+                            mobile: 18, desktop: 22, smallDesktop: 18),
+                        fontWeight: FontWeight.bold,
+                        color: Colors.white,
+                        letterSpacing: 2,
+                        shadows: [
+                          Shadow(
+                            color: Colors.black.withValues(alpha: 0.7),
+                            blurRadius: 8,
+                            offset: const Offset(0, 2),
+                          ),
+                          Shadow(
+                            color: Colors.black.withValues(alpha: 0.5),
+                            blurRadius: 4,
+                            offset: const Offset(0, 1),
+                          ),
+                        ],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    SizedBox(
+                        height: context.getSize(
+                            mobile: 10, desktop: 15, smallDesktop: 10)),
+                    // Text với shadow
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          'to',
+                          style: GoogleFonts.notoSans(
+                            fontSize: context.getSize(
+                                mobile: 9, desktop: 11, smallDesktop: 9),
+                            color: Colors.white,
+                            letterSpacing: 2,
+                            fontStyle: FontStyle.italic,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withValues(alpha: 0.7),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                              Shadow(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                blurRadius: 4,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        SizedBox(
+                            width: context.getSize(
+                                mobile: 5, desktop: 10, smallDesktop: 5)),
+                        // Text với shadow
+                        Text(
+                          'Em bé',
+                          style: TextStyle(
+                            fontFamily: 'Excalifont',
+                            fontSize: context.getSize(
+                                mobile: 18, desktop: 22, smallDesktop: 18),
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            letterSpacing: 2,
+                            shadows: [
+                              Shadow(
+                                color: Colors.black.withValues(alpha: 0.7),
+                                blurRadius: 8,
+                                offset: const Offset(0, 2),
+                              ),
+                              Shadow(
+                                color: Colors.black.withValues(alpha: 0.5),
+                                blurRadius: 4,
+                                offset: const Offset(0, 1),
+                              ),
+                            ],
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                      ],
+                    )
                   ],
                 ),
               ),

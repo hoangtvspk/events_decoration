@@ -18,6 +18,7 @@ class HomeState with _$HomeState {
     @Default('All') String selectedCategory,
     @Default([]) List<String> features,
     @Default(0) int greetingCardIndex,
+    @Default(0) int maxReachedCardIndex, // Track card index cao nhất đã đạt được (chỉ tăng, không giảm)
     @Default(Status.idle()) Status statusLoadData,
     @Default(Status.idle()) Status statusRefreshData,
     @Default(Status.idle()) Status statusAddTask,
